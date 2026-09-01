@@ -1,0 +1,16 @@
+{
+  "name": "iOS Repo Runner",
+  "short_name": "RepoRunner",
+  "description": "Select from a dropdown of your repositories with an iOS build and run them directly on your phone.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#020617",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
