@@ -6,6 +6,7 @@
 2. Build — `verify/build.sh`
 3. Tests — `verify/test.sh`
 4. Simulator smoke — `verify/simulator-smoke.sh`
+5. UI tests against live GitHub — `verify/ui-test.sh`
 
 ## What each gate proves
 
@@ -14,14 +15,18 @@
 | `verify/lint.sh` | `ios/project.yml` regenerates cleanly and the web surface still lints. |
 | `verify/build.sh` | The app compiles for the iOS simulator with no warnings-as-errors. |
 | `verify/test.sh` | Unit tests pass on a simulator destination. |
-| `verify/simulator-smoke.sh` | The app installs on a booted simulator, launches, and is still alive 3 seconds later. |
+| `verify/simulator-smoke.sh` | The app installs on a booted simulator, launches, is still alive 3 seconds later, and renders the repo list with a real token. |
+| `verify/ui-test.sh` | The badge and the artifact classification hold against a live repository, and the screenshots in `docs/screenshots/` are regenerated. |
 
 ## Rules
 
 - CI runs **the same command** as local. No CI-only logic.
 - A gate that can't run in some environment **skips loudly**, never
   passes silently. `verify/simulator-smoke.sh` needs a simulator
-  runtime; with none installed it exits non-zero and says so.
+  runtime; with none installed it exits non-zero and says so. The
+  signed-in half of that gate and all of `verify/ui-test.sh` need a
+  GitHub token from `REPORUNNER_TOKEN` or `gh auth token`; without one
+  they print `SKIP` and the reason.
 - New behavior lands with its gate in the same PR whenever feasible.
 - A feature's completion promise (ROADMAP.md) should be backed by a gate
   here whenever it can be — evidence that keeps proving itself beats

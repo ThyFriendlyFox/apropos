@@ -20,10 +20,9 @@ PID="$(xcrun simctl launch "$UDID" "$BUNDLE_ID" | awk -F': ' '{print $2}')"
 [ -n "$PID" ] || die "launch returned no pid"
 ok "launched as pid $PID"
 
-step "Confirm the app is still alive after 3 seconds"
+step "Confirm the app is still alive after launch"
 /bin/sleep 3
-xcrun simctl spawn "$UDID" launchctl list 2>/dev/null | grep -q "$BUNDLE_ID" \
-  || die "$BUNDLE_ID is not running 3 seconds after launch; it crashed on start"
+assert_running "$UDID" "$BUNDLE_ID" || die "$BUNDLE_ID is not running after launch; it crashed on start"
 ok "still running"
 
 step "Capture the onboarding screen"
@@ -40,11 +39,9 @@ if [ -z "$TOKEN" ]; then
   echo "    SKIP: no token. Set REPORUNNER_TOKEN or run gh auth login to include this gate."
   exit 0
 fi
-xcrun simctl terminate "$UDID" "$BUNDLE_ID" >/dev/null 2>&1 || true
-PID="$(SIMCTL_CHILD_REPORUNNER_TOKEN="$TOKEN" xcrun simctl launch "$UDID" "$BUNDLE_ID" | awk -F": " "{print \$2}")"
-[ -n "$PID" ] || die "signed-in launch returned no pid"
+SIMCTL_CHILD_REPORUNNER_TOKEN="$TOKEN" \
+  xcrun simctl launch --terminate-running-process "$UDID" "$BUNDLE_ID" >/dev/null
 /bin/sleep 6
-xcrun simctl spawn "$UDID" launchctl list 2>/dev/null | grep -q "$BUNDLE_ID" \
-  || die "$BUNDLE_ID crashed while loading the repo list"
+assert_running "$UDID" "$BUNDLE_ID" || die "$BUNDLE_ID crashed while loading the repo list"
 xcrun simctl io "$UDID" screenshot --type=png "$REPO_ROOT/docs/screenshots/repo-list.png" >/dev/null 2>&1
 ok "docs/screenshots/repo-list.png"

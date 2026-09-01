@@ -5,18 +5,20 @@ struct RepoListView: View {
     let user: GitHubUser
 
     @State private var model: RepoListModel?
+    @State private var index: ReleaseIndex?
 
     var body: some View {
         NavigationStack {
             Group {
-                if let model {
-                    listBody(model)
+                if let model, let index {
+                    listBody(model, index: index)
                 } else {
                     ProgressView()
                 }
             }
             .background(Theme.background)
             .navigationTitle("Repositories")
+            .navigationDestination(for: Repo.self) { RepoDetailView(repo: $0) }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
@@ -31,12 +33,13 @@ struct RepoListView: View {
         }
         .task {
             if model == nil { model = RepoListModel(api: session.api) }
+            if index == nil { index = ReleaseIndex(api: session.api) }
             await model?.loadFirstPageIfNeeded()
         }
     }
 
     @ViewBuilder
-    private func listBody(_ model: RepoListModel) -> some View {
+    private func listBody(_ model: RepoListModel, index: ReleaseIndex) -> some View {
         @Bindable var model = model
         if model.repos.isEmpty, case .failed(let message) = model.state {
             ContentUnavailableView {
@@ -52,13 +55,17 @@ struct RepoListView: View {
         } else {
             List {
                 ForEach(model.visibleRepos) { repo in
-                    RepoRow(repo: repo)
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
-                        .listRowInsets(EdgeInsets(top: 5, leading: 16, bottom: 5, trailing: 16))
-                        .task {
-                            if model.shouldLoadMore(after: repo) { await model.loadNextPage() }
-                        }
+                    NavigationLink(value: repo) {
+                        RepoRow(repo: repo, entry: index.entry(for: repo))
+                    }
+                    .accessibilityIdentifier("repo-\(repo.name)")
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets(top: 5, leading: 16, bottom: 5, trailing: 16))
+                    .task {
+                        await index.scanIfNeeded(repo)
+                        if model.shouldLoadMore(after: repo) { await model.loadNextPage() }
+                    }
                 }
                 if model.visibleRepos.isEmpty {
                     ContentUnavailableView.search(text: model.query)
@@ -68,13 +75,17 @@ struct RepoListView: View {
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
             .searchable(text: $model.query, prompt: "Search repositories")
-            .refreshable { await model.reload() }
+            .refreshable {
+                index.forgetAll()
+                await model.reload()
+            }
         }
     }
 }
 
 struct RepoRow: View {
     let repo: Repo
+    let entry: ReleaseIndex.Entry?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -87,7 +98,8 @@ struct RepoRow: View {
                         .font(.caption2)
                         .foregroundStyle(Theme.secondaryText)
                 }
-                Spacer()
+                Spacer(minLength: 8)
+                badge
             }
 
             if let description = repo.description, !description.isEmpty {
@@ -114,6 +126,22 @@ struct RepoRow: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .cardSurface()
+        // Keeps the badge queryable instead of being folded into the row's
+        // combined accessibility label.
+        .accessibilityElement(children: .contain)
+    }
+
+    @ViewBuilder
+    private var badge: some View {
+        if case .found(let scanned) = entry, scanned.isInstallable {
+            Label("iOS build", systemImage: "iphone")
+                .font(.caption2.weight(.semibold))
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(Theme.accent.opacity(0.16), in: Capsule())
+                .foregroundStyle(Theme.accent)
+                .accessibilityIdentifier("ios-build-badge")
+        }
     }
 }
 

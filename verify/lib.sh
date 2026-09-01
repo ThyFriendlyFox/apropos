@@ -40,3 +40,18 @@ regenerate_project() {
   command -v xcodegen >/dev/null || die "xcodegen is not installed (brew install xcodegen)"
   ( cd "$IOS_DIR" && xcodegen generate --quiet )
 }
+
+# `simctl launch` reports success for a process that dies a moment later, so
+# liveness is checked separately. The listing is captured first: piping into
+# `grep -q` makes the producer take SIGPIPE, which `pipefail` then reports as
+# a failure even on a match.
+assert_running() {
+  local udid="$1" bundle="$2" tries="${3:-6}"
+  local listing
+  for _ in $(seq 1 "$tries"); do
+    listing="$(xcrun simctl spawn "$udid" launchctl list 2>/dev/null || true)"
+    case "$listing" in *"$bundle"*) return 0 ;; esac
+    /bin/sleep 1
+  done
+  return 1
+}

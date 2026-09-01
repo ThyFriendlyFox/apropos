@@ -11,6 +11,7 @@ xcodebuild test \
   -scheme "$SCHEME" \
   -destination "platform=iOS Simulator,id=$UDID" \
   -derivedDataPath "$DERIVED" \
+  -only-testing:RepoRunnerTests \
   CODE_SIGNING_ALLOWED=NO \
   2>&1 | tee "$DERIVED/test.log" | grep -E "(Test Case '.*(passed|failed)|Executed .* tests|error:|TEST)" 
 rc=${PIPESTATUS[0]}

@@ -50,15 +50,30 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.thyfriendlyfox.reporunner.tests
         GENERATE_INFOPLIST_FILE: YES
 
+  RepoRunnerUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: RepoRunnerUITests
+    dependencies:
+      - target: RepoRunner
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.thyfriendlyfox.reporunner.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: RepoRunner
+
 schemes:
   RepoRunner:
     build:
       targets:
         RepoRunner: all
         RepoRunnerTests: [test]
+        RepoRunnerUITests: [test]
     run:
       config: Debug
     test:
       config: Debug
       targets:
         - RepoRunnerTests
+        - RepoRunnerUITests

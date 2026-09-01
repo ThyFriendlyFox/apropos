@@ -11,7 +11,7 @@ struct GitHubUser: Codable, Equatable, Sendable {
     }
 }
 
-struct RepoOwner: Codable, Equatable, Sendable {
+struct RepoOwner: Codable, Hashable, Sendable {
     let login: String
     let avatarURL: URL?
 
@@ -21,7 +21,7 @@ struct RepoOwner: Codable, Equatable, Sendable {
     }
 }
 
-struct Repo: Codable, Equatable, Sendable, Identifiable {
+struct Repo: Codable, Hashable, Sendable, Identifiable {
     let id: Int
     let name: String
     let fullName: String

@@ -9,7 +9,7 @@ behavior change. The weekly cycle (WEEKLY.md step 5) refreshes it.
 | Native iOS shell (`ios/`) | ✅ | `verify/verify.sh` green at `a40efa0` |
 | GitHub device-flow sign-in | 🚧 | `DeviceFlowAuthTests`, 6 cases; end-to-end run needs an OAuth client ID |
 | Repo list | ✅ | `docs/screenshots/repo-list.png`, live GitHub |
-| Release scanning | ❌ | not started |
+| Release scanning | ✅ | `ReleaseScannerTests` 8 cases; UI test against `reagent-systems/mouse` v1.4 |
 | Install via `itms-services` | ❌ | not started |
 | Health gate `verify/verify.sh` | ✅ | 16 tests, 0 failures; build with warnings as errors |
 | Next.js web demo (`src/`) | 🧊 | kept as-is; not the product |
@@ -18,6 +18,6 @@ States: ✅ done (gated) · 🚧 in progress · ❌ not started · 🧊 frozen/w
 
 ## Current week
 
-- **Shipping:** Feature Queue item 1 — release scanning and iOS artifact detection.
+- **Shipping:** Feature Queue item 1 — one-tap install of a release build.
 - **Last release:** none.
 - **Known red:** none. The signed-in half of the smoke gate skips out loud when no GitHub token is present.
