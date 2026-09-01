@@ -14,18 +14,7 @@ TestFlight, no cable, no Xcode on the phone side.
 
 ## Feature Queue — ordered; top unblocked item ships next
 
-### 1. One-tap install of a release build
-- **Promise:** Tapping Install on a release with a public `.ipa` opens
-  an `itms-services://` install for a manifest whose URL is https, and
-  the app reports a specific reason instead of installing when the
-  release is private, unsigned-for-this-device, or simulator-only.
-- **Evidence:** `InstallServiceTests` proves manifest generation and
-  every refusal branch; the simulator run shows the refusal copy.
-- **Use case:** UC-4, UC-5.
-- **Scope guard:** No re-signing. No MDM. No private-repo proxying.
-- **Status:** ready
-
-### 2. Ship-to-phone polish
+### 1. Ship-to-phone polish
 - **Promise:** The app has an icon, a launch screen, pull-to-refresh,
   search, empty and error states with retry, and sign-out, and
   `docs/DEPLOY-TO-PHONE.md` names the exact Xcode steps to run it on a
@@ -46,6 +35,7 @@ TestFlight, no cable, no Xcode on the phone side.
 
 | Week | Feature | Release | Evidence |
 |---|---|---|---|
+| 2026-09-01 | One-tap install of a release build | unreleased | `InstallPlannerTests` 10 cases, `InstallManifestTests` 5, `IPAInspectorTests` 11; `InstallSheetUITests` against the live `mouse` .ipa; `docs/screenshots/install-sheet.png` |
 | 2026-09-01 | Release scanning and iOS artifact detection | unreleased | `ReleaseScannerTests`, 8 cases; `RepoBrowsingUITests` against `reagent-systems/mouse`; `docs/screenshots/repo-detail.png` |
 | 2026-09-01 | Native iOS shell with GitHub device-flow sign-in | unreleased | `verify/verify.sh` green at `a40efa0`; `docs/screenshots/onboarding.png` and `docs/screenshots/repo-list.png` |
 

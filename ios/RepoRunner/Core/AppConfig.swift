@@ -28,4 +28,25 @@ enum AppConfig {
     static let scope = "repo read:user"
 
     static let oauthAppSetupURL = URL(string: "https://github.com/settings/applications/new")!
+
+    private static let manifestHostKey = "manifest.host"
+
+    /// An https endpoint that turns query values into an install manifest.
+    /// `src/app/api/manifest/route.ts` in this repository is one; deploy it
+    /// and paste its URL. Only needed when a release carries no manifest and
+    /// the account cannot write to the repository.
+    static var manifestHost: URL? {
+        guard let raw = UserDefaults.standard.string(forKey: manifestHostKey),
+              let url = URL(string: raw), url.scheme?.lowercased() == "https" else { return nil }
+        return url
+    }
+
+    static func setManifestHost(_ value: String?) {
+        let trimmed = value?.trimmingCharacters(in: .whitespacesAndNewlines)
+        if let trimmed, !trimmed.isEmpty {
+            UserDefaults.standard.set(trimmed, forKey: manifestHostKey)
+        } else {
+            UserDefaults.standard.removeObject(forKey: manifestHostKey)
+        }
+    }
 }

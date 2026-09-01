@@ -83,6 +83,8 @@ struct ReleaseCard: View {
     let repo: Repo
     let scanned: ScannedRelease
 
+    @State private var showingInstall = false
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .firstTextBaseline) {
@@ -121,15 +123,32 @@ struct ReleaseCard: View {
                 }
             }
 
-            Button {
-                openURL(scanned.release.htmlURL)
-            } label: {
-                Label("Release notes", systemImage: "arrow.up.right")
-                    .font(.footnote)
+            HStack(spacing: 16) {
+                if !scanned.artifacts.isEmpty {
+                    Button {
+                        showingInstall = true
+                    } label: {
+                        Label("Install", systemImage: "arrow.down.to.line")
+                            .font(.subheadline.weight(.semibold))
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.small)
+                    .accessibilityIdentifier("install-\(scanned.release.tagName)")
+                }
+                Spacer()
+                Button {
+                    openURL(scanned.release.htmlURL)
+                } label: {
+                    Label("Release notes", systemImage: "arrow.up.right")
+                        .font(.footnote)
+                }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .cardSurface()
+        .sheet(isPresented: $showingInstall) {
+            InstallSheet(repo: repo, scanned: scanned)
+        }
     }
 }
 

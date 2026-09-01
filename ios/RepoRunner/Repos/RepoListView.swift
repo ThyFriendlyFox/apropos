@@ -6,6 +6,7 @@ struct RepoListView: View {
 
     @State private var model: RepoListModel?
     @State private var index: ReleaseIndex?
+    @State private var showingSettings = false
 
     var body: some View {
         NavigationStack {
@@ -21,9 +22,8 @@ struct RepoListView: View {
             .navigationDestination(for: Repo.self) { RepoDetailView(repo: $0) }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Menu {
-                        Text("Signed in as \(user.login)")
-                        Button("Sign out", role: .destructive) { session.signOut() }
+                    Button {
+                        showingSettings = true
                     } label: {
                         Image(systemName: "person.crop.circle")
                     }
@@ -31,6 +31,7 @@ struct RepoListView: View {
                 }
             }
         }
+        .sheet(isPresented: $showingSettings) { SettingsView(user: user) }
         .task {
             if model == nil { model = RepoListModel(api: session.api) }
             if index == nil { index = ReleaseIndex(api: session.api) }

@@ -40,6 +40,44 @@ struct GitHubAPI: Sendable {
         }
     }
 
+    /// Attaches a generated manifest to a release. Uploads go to a different
+    /// host than the rest of the API.
+    func uploadReleaseAsset(
+        owner: String,
+        repo: String,
+        releaseID: Int,
+        name: String,
+        contentType: String,
+        body: Data
+    ) async throws -> ReleaseAsset {
+        var components = URLComponents(
+            string: "https://uploads.github.com/repos/\(owner)/\(repo)/releases/\(releaseID)/assets"
+        )!
+        components.queryItems = [URLQueryItem(name: "name", value: name)]
+        var request = URLRequest(url: components.url!)
+        request.httpMethod = "POST"
+        request.setValue("application/vnd.github+json", forHTTPHeaderField: "Accept")
+        request.setValue("2022-11-28", forHTTPHeaderField: "X-GitHub-Api-Version")
+        request.setValue(contentType, forHTTPHeaderField: "Content-Type")
+        if let token = token() {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        request.httpBody = body
+
+        let (data, response): (Data, HTTPURLResponse)
+        do {
+            (data, response) = try await transport.send(request)
+        } catch let error as URLError {
+            throw GitHubError.transport(error)
+        }
+        try Self.throwIfFailure(data: data, response: response)
+        do {
+            return try Self.decoder.decode(ReleaseAsset.self, from: data)
+        } catch {
+            throw GitHubError.decoding(String(describing: error))
+        }
+    }
+
     // MARK: - Request plumbing
 
     private func get<T: Decodable>(path: String, query: [String: String] = [:]) async throws -> T {

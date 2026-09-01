@@ -69,3 +69,58 @@ final class RepoBrowsingUITests: XCTestCase {
         add(shot)
     }
 }
+
+/// Opens the install sheet against a live public `.ipa`. This proves the
+/// range-read inspection end to end: the bundle identifier and the signature
+/// come out of the real archive on GitHub, not out of a fixture.
+final class InstallSheetUITests: XCTestCase {
+    private var app: XCUIApplication!
+
+    override func setUpWithError() throws {
+        continueAfterFailure = false
+        let token = ProcessInfo.processInfo.environment["REPORUNNER_TOKEN"] ?? ""
+        try XCTSkipIf(token.isEmpty, "no REPORUNNER_TOKEN; the signed-in UI gate needs one")
+        app = XCUIApplication()
+        app.launchEnvironment["REPORUNNER_TOKEN"] = token
+        app.launch()
+    }
+
+    func testInstallSheetReadsTheRealIPAAndRefusesAnAppStoreBuild() {
+        XCTAssertTrue(app.navigationBars["Repositories"].waitForExistence(timeout: 20))
+
+        let field = app.searchFields.firstMatch
+        XCTAssertTrue(field.waitForExistence(timeout: 20))
+        field.tap()
+        field.typeText("mouse")
+
+        let row = app.descendants(matching: .any)["repo-mouse"]
+        XCTAssertTrue(row.waitForExistence(timeout: 20))
+        row.tap()
+
+        let install = app.buttons["install-v1.4"]
+        XCTAssertTrue(install.waitForExistence(timeout: 20))
+        install.tap()
+
+        // Read out of the .ipa itself, over range requests.
+        XCTAssertTrue(
+            app.staticTexts["com.reagentsystems.mouse.swift"].waitForExistence(timeout: 40),
+            "the bundle identifier must come from the archive on GitHub"
+        )
+        XCTAssertTrue(app.staticTexts["Mouse"].exists)
+        XCTAssertTrue(app.staticTexts["1.4 (1)"].exists)
+        XCTAssertTrue(app.staticTexts["App Store signature"].exists)
+
+        // An App Store signature can never install over the air, so the app
+        // must name that reason rather than hand iOS a URL that fails.
+        XCTAssertTrue(
+            app.descendants(matching: .any)["install-refusal"].waitForExistence(timeout: 10),
+            "an App Store build must be refused with its reason"
+        )
+        XCTAssertFalse(app.buttons["install-button"].exists)
+
+        let shot = XCTAttachment(screenshot: app.screenshot())
+        shot.name = "install-sheet"
+        shot.lifetime = .keepAlways
+        add(shot)
+    }
+}

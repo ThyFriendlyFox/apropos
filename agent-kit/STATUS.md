@@ -10,7 +10,7 @@ behavior change. The weekly cycle (WEEKLY.md step 5) refreshes it.
 | GitHub device-flow sign-in | 🚧 | `DeviceFlowAuthTests`, 6 cases; end-to-end run needs an OAuth client ID |
 | Repo list | ✅ | `docs/screenshots/repo-list.png`, live GitHub |
 | Release scanning | ✅ | `ReleaseScannerTests` 8 cases; UI test against `reagent-systems/mouse` v1.4 |
-| Install via `itms-services` | ❌ | not started |
+| Install via `itms-services` | ✅ | 26 install-layer tests; `docs/screenshots/install-sheet.png` reads the live `mouse` .ipa and refuses it by reason |
 | Health gate `verify/verify.sh` | ✅ | 16 tests, 0 failures; build with warnings as errors |
 | Next.js web demo (`src/`) | 🧊 | kept as-is; not the product |
 
@@ -18,6 +18,6 @@ States: ✅ done (gated) · 🚧 in progress · ❌ not started · 🧊 frozen/w
 
 ## Current week
 
-- **Shipping:** Feature Queue item 1 — one-tap install of a release build.
+- **Shipping:** Feature Queue item 1 — ship-to-phone polish.
 - **Last release:** none.
 - **Known red:** none. The signed-in half of the smoke gate skips out loud when no GitHub token is present.

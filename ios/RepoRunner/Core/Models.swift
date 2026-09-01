@@ -21,6 +21,10 @@ struct RepoOwner: Codable, Hashable, Sendable {
     }
 }
 
+struct RepoPermissions: Codable, Hashable, Sendable {
+    let push: Bool
+}
+
 struct Repo: Codable, Hashable, Sendable, Identifiable {
     let id: Int
     let name: String
@@ -32,9 +36,14 @@ struct Repo: Codable, Hashable, Sendable, Identifiable {
     let stargazersCount: Int
     let language: String?
     let owner: RepoOwner
+    /// Absent when the listing was fetched without it; treated as no write
+    /// access rather than assumed.
+    let permissions: RepoPermissions?
+
+    var canWrite: Bool { permissions?.push == true }
 
     enum CodingKeys: String, CodingKey {
-        case id, name, description, language, owner
+        case id, name, description, language, owner, permissions
         case fullName = "full_name"
         case isPrivate = "private"
         case htmlURL = "html_url"
