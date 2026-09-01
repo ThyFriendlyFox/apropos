@@ -22,7 +22,7 @@ struct SettingsView: View {
                 }
 
                 Section {
-                    TextField("https://your-app.vercel.app/api/manifest", text: $manifestHost)
+                    TextField("Paste your manifest endpoint URL", text: $manifestHost)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                         .keyboardType(.URL)
