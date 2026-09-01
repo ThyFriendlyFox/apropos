@@ -42,8 +42,11 @@ Repo Runner signs in with GitHub's device flow, which needs an OAuth client
 ID and no client secret.
 
 1. Open <https://github.com/settings/applications/new>.
-2. Name it anything. Any homepage URL works; the callback URL is unused.
-3. On the app's settings page, tick **Enable Device Flow**.
+2. Name it anything. **Homepage URL** and **Authorization callback URL**
+   are both required by the form and neither can be blank, but the device
+   flow never uses the callback. `http://localhost` works for both.
+3. Register the app, then on its settings page tick **Enable Device Flow**
+   and save. Without this GitHub answers `device_flow_disabled`.
 4. Copy the **Client ID**.
 5. Either paste it into Repo Runner under **Settings → OAuth client ID**, or
    put it in `ios/Secrets.xcconfig` before building:
