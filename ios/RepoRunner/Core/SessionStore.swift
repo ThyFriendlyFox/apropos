@@ -26,11 +26,23 @@ final class SessionStore {
 
     var api: GitHubAPI {
         let tokens = self.tokens
+        #if DEBUG
+        if let injected = InjectedToken.value {
+            return GitHubAPI(transport: transport, token: { injected })
+        }
+        #endif
         return GitHubAPI(transport: transport, token: { tokens.read() })
     }
 
+    private var storedToken: String? {
+        #if DEBUG
+        if let injected = InjectedToken.value { return injected }
+        #endif
+        return tokens.read()
+    }
+
     func restore() async {
-        guard tokens.read() != nil else {
+        guard storedToken != nil else {
             phase = .signedOut
             return
         }

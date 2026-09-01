@@ -6,18 +6,18 @@ behavior change. The weekly cycle (WEEKLY.md step 5) refreshes it.
 
 | Area | State | Evidence |
 |---|---|---|
-| Native iOS shell (`ios/`) | ❌ | not started |
-| GitHub device-flow sign-in | ❌ | not started |
-| Repo list | ❌ | not started |
+| Native iOS shell (`ios/`) | ✅ | `verify/verify.sh` green at `a40efa0` |
+| GitHub device-flow sign-in | 🚧 | `DeviceFlowAuthTests`, 6 cases; end-to-end run needs an OAuth client ID |
+| Repo list | ✅ | `docs/screenshots/repo-list.png`, live GitHub |
 | Release scanning | ❌ | not started |
 | Install via `itms-services` | ❌ | not started |
-| Health gate `verify/verify.sh` | ❌ | not started |
+| Health gate `verify/verify.sh` | ✅ | 16 tests, 0 failures; build with warnings as errors |
 | Next.js web demo (`src/`) | 🧊 | kept as-is; not the product |
 
 States: ✅ done (gated) · 🚧 in progress · ❌ not started · 🧊 frozen/won't do.
 
 ## Current week
 
-- **Shipping:** Feature Queue item 1 — native iOS shell with GitHub sign-in.
+- **Shipping:** Feature Queue item 1 — release scanning and iOS artifact detection.
 - **Last release:** none.
-- **Known red:** `verify/verify.sh` does not exist yet.
+- **Known red:** none. The signed-in half of the smoke gate skips out loud when no GitHub token is present.

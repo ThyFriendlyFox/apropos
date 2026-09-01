@@ -14,19 +14,7 @@ TestFlight, no cable, no Xcode on the phone side.
 
 ## Feature Queue — ordered; top unblocked item ships next
 
-### 1. Native iOS shell that signs in with GitHub and lists repos
-- **Promise:** On a booted iPhone simulator, a clean `verify/verify.sh`
-  run installs and launches `com.thyfriendlyfox.reporunner`, the first
-  screen is the Sign in with GitHub button, and after a device-flow
-  sign-in the repo list renders the account's repositories.
-- **Evidence:** `verify/verify.sh` green (unit tests + build +
-  `verify/simulator-smoke.sh`), plus a simulator screenshot of the
-  onboarding screen and of the repo list.
-- **Use case:** UC-1, UC-2 in `docs/USE-CASES.md`.
-- **Scope guard:** No install action yet. No release scanning yet.
-- **Status:** ready
-
-### 2. Release scanning and iOS artifact detection
+### 1. Release scanning and iOS artifact detection
 - **Promise:** A repo row shows an "iOS build" badge when the repo's
   latest release carries an installable iOS artifact, and the repo
   detail screen lists every release with its artifacts classified as
@@ -38,7 +26,7 @@ TestFlight, no cable, no Xcode on the phone side.
 - **Scope guard:** No downloading. Classification and display only.
 - **Status:** ready
 
-### 3. One-tap install of a release build
+### 2. One-tap install of a release build
 - **Promise:** Tapping Install on a release with a public `.ipa` opens
   an `itms-services://` install for a manifest whose URL is https, and
   the app reports a specific reason instead of installing when the
@@ -49,7 +37,7 @@ TestFlight, no cable, no Xcode on the phone side.
 - **Scope guard:** No re-signing. No MDM. No private-repo proxying.
 - **Status:** ready
 
-### 4. Ship-to-phone polish
+### 3. Ship-to-phone polish
 - **Promise:** The app has an icon, a launch screen, pull-to-refresh,
   search, empty and error states with retry, and sign-out, and
   `docs/DEPLOY-TO-PHONE.md` names the exact Xcode steps to run it on a
@@ -70,6 +58,7 @@ TestFlight, no cable, no Xcode on the phone side.
 
 | Week | Feature | Release | Evidence |
 |---|---|---|---|
+| 2026-09-01 | Native iOS shell with GitHub device-flow sign-in | unreleased | `verify/verify.sh` green at `a40efa0`; `docs/screenshots/onboarding.png` and `docs/screenshots/repo-list.png` |
 
 ## Explicitly not doing
 
@@ -84,3 +73,8 @@ TestFlight, no cable, no Xcode on the phone side.
 
 - 2026-09-01 — Seeded the queue for the native iOS rewrite. The prior
   Next.js surface stays as a web demo, not as the product.
+- 2026-09-01 — Shipped item 1. The repo-list half of its promise is
+  proven against live GitHub by `verify/simulator-smoke.sh`. The
+  device-flow half is proven by `DeviceFlowAuthTests` only: an
+  end-to-end run needs an OAuth client ID, which only the account owner
+  can create.
