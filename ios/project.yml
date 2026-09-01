@@ -1,0 +1,64 @@
+name: RepoRunner
+options:
+  bundleIdPrefix: com.thyfriendlyfox
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+
+configs:
+  Debug: debug
+  Release: release
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    SWIFT_STRICT_CONCURRENCY: complete
+
+targets:
+  RepoRunner:
+    type: application
+    platform: iOS
+    sources:
+      - path: RepoRunner
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.thyfriendlyfox.reporunner
+        PRODUCT_NAME: RepoRunner
+        INFOPLIST_FILE: RepoRunner/Resources/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTS_MACCATALYST: NO
+        GENERATE_INFOPLIST_FILE: NO
+        # Overridden by ios/Secrets.xcconfig when present; see docs/DEPLOY-TO-PHONE.md.
+        GITHUB_CLIENT_ID: ""
+
+  RepoRunnerTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: RepoRunnerTests
+    dependencies:
+      - target: RepoRunner
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.thyfriendlyfox.reporunner.tests
+        GENERATE_INFOPLIST_FILE: YES
+
+schemes:
+  RepoRunner:
+    build:
+      targets:
+        RepoRunner: all
+        RepoRunnerTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - RepoRunnerTests

@@ -10,7 +10,7 @@
      exact config block to enable it. -->
 
 An adapter <one sentence: what an adapter translates or connects>.
-{{PROJECT_NAME}} has <N> adapters. Select one with the `<field>` field.
+Repo Runner has <N> adapters. Select one with the `<field>` field.
 
 ## <adapter-id>
 

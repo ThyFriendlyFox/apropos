@@ -1,29 +1,40 @@
-# Use cases
+# USE-CASES.md — who this is for and what they do
 
-<!-- The user-facing answer to "what do I do with this?". Each case has
-     the same shape — pick the verbs that fit the product and keep them
-     identical across every case. For a tool the shape might be
-     Record/Play/Undo; for a library, Setup/Call/Result; for a service,
-     Trigger/Action/Outcome. Cases are written in the repo's STYLE.md
-     voice: short sentences, active voice, no marketing words.
+Every ROADMAP Feature Queue item traces to a case here. A feature with
+no case is not built.
 
-     This file is load-bearing for the roadmap: every Feature Queue item
-     in ROADMAP.md should trace to a use case here (or add one). A
-     feature that serves no use case is a side quest. -->
+## UC-1 — First run on a new phone
 
-Each case has the same shape.
-<one sentence stating the shared shape and what each part means>
+A developer installs Repo Runner on their iPhone. They open it and see
+one button: Sign in with GitHub. They tap it, approve the device code in
+Safari, and land on their repo list. They never type a password into the
+app.
 
-## <Use case name>
+## UC-2 — Find the repo among 200
 
-**<Verb 1>.** <What the user does, step by step, present tense.>
-**<Verb 2>.** <What repeats / what the payoff is.>
+The developer has hundreds of repos. They pull to refresh, type three
+letters, and the repo they shipped an hour ago is on screen, sorted by
+most recently pushed.
 
-## <Use case name>
+## UC-3 — Know which repos are runnable
 
-**<Verb 1>.** …
-**<Verb 2>.** …
+Most repos are not apps. The developer scans the list and sees at a
+glance which repos have an iOS build attached to a release, without
+opening each one.
 
-<!-- 5–10 cases. Order from most common to most advanced. End with the
-     collaboration/scale case if there is one (shared config, team
-     library, multi-user), the way a reader ends a demo. -->
+## UC-4 — Run this morning's build
+
+The developer tapped a repo, sees `v0.4.2` from 20 minutes ago with an
+`.ipa` attached, taps Install, and the app appears on the Home Screen.
+
+## UC-5 — Understand a refusal
+
+The build is there but it will not install. The developer needs one
+sentence naming the actual reason — private release asset, simulator-only
+artifact, or a build not signed for this device — not a spinner that
+stops.
+
+## UC-6 — Put it on the phone from Xcode
+
+The developer opens the generated project, sets their team, picks their
+iPhone, and runs. A doc names the exact steps and the exact settings.

@@ -12,14 +12,14 @@ stack, build/test/lint commands, default branch, license, how it runs.
 
 | Placeholder | Meaning |
 |---|---|
-| `{{PROJECT_NAME}}` | Human name of the project |
-| `{{REPO_SLUG}}` | owner/repo |
-| `{{DEFAULT_BRANCH}}` | usually `main` |
-| `{{BUILD_CMD}}` / `{{TEST_CMD}}` / `{{LINT_CMD}}` | canonical commands (create them if missing) |
-| `{{VERIFY_CMD}}` | ONE command chaining lint→build→test (create `verify/verify.sh` if nothing exists) |
-| `{{MIN_RUNTIME}}` | minimum toolchain |
-| `{{SECURITY_EMAIL}}` | from the human; ask if unknown |
-| `{{PKG_ECOSYSTEM}}` | dependabot ecosystem name |
+| `Repo Runner` | Human name of the project |
+| `ThyFriendlyFox/apropos` | owner/repo |
+| `main` | usually `main` |
+| `verify/build.sh` / `verify/test.sh` / `verify/lint.sh` | canonical commands (create them if missing) |
+| `verify/verify.sh` | ONE command chaining lint→build→test (create `verify/verify.sh` if nothing exists) |
+| `Xcode 26.2 with an iOS 18.6 or newer simulator runtime` | minimum toolchain |
+| `thyfriendlyfox@gmail.com` | from the human; ask if unknown |
+| `npm` | dependabot ecosystem name |
 
 ## 3. Reconcile with existing files
 
@@ -56,7 +56,7 @@ Populate `docs/` from the repo itself:
 - Instantiate workflows from `CI.md` into `.github/workflows/`.
 - Add the loop-state ignore lines from `LOOP.md` to `.gitignore`.
 - Ensure `CHANGELOG.md` exists (seed is in this kit).
-- Run `{{VERIFY_CMD}}`; fix until green — this is the baseline.
+- Run `verify/verify.sh`; fix until green — this is the baseline.
 
 ## 5b. Start the devlog and install the skill
 

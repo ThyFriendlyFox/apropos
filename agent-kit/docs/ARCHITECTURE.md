@@ -4,7 +4,7 @@
      Tables over prose. Keep it current: WEEKLY.md step 5 includes this
      file when a feature moves a boundary. -->
 
-{{PROJECT_NAME}} is <one sentence: kind of program, runtime>. The code has <N> parts.
+Repo Runner is <one sentence: kind of program, runtime>. The code has <N> parts.
 
 | Part | Folder | Task |
 |---|---|---|

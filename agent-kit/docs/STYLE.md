@@ -4,7 +4,7 @@
      messages, release notes. Based on Simplified Technical English.
      AGENTS.md house style governs code; this file governs words. -->
 
-{{PROJECT_NAME}} uses one voice for every text.
+Repo Runner uses one voice for every text.
 The rules keep the text short, clear and easy to translate.
 
 ## Rules

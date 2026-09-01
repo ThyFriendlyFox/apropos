@@ -3,7 +3,7 @@
 <!-- Every knob, in one table, with defaults. If configuration lives in
      more than one place, this file lists all of them and which wins. -->
 
-{{PROJECT_NAME}} reads <the config file/mechanism>. <How the user opens or edits it.>
+Repo Runner reads <the config file/mechanism>. <How the user opens or edits it.>
 
 | Platform | Path |
 |---|---|

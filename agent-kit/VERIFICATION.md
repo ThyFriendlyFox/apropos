@@ -1,19 +1,35 @@
 # VERIFICATION.md — one command answers "is this repo healthy"
 
-`{{VERIFY_CMD}}` runs, in order:
+`verify/verify.sh` runs, in order:
 
-1. Lint / format check — `{{LINT_CMD}}`
-2. Build — `{{BUILD_CMD}}`
-3. Tests — `{{TEST_CMD}}`
-4. <repo-specific gates — one script per gate, each independently runnable>
+1. Lint / format check — `verify/lint.sh`
+2. Build — `verify/build.sh`
+3. Tests — `verify/test.sh`
+4. Simulator smoke — `verify/simulator-smoke.sh`
+
+## What each gate proves
+
+| Gate | Proves |
+|---|---|
+| `verify/lint.sh` | `ios/project.yml` regenerates cleanly and the web surface still lints. |
+| `verify/build.sh` | The app compiles for the iOS simulator with no warnings-as-errors. |
+| `verify/test.sh` | Unit tests pass on a simulator destination. |
+| `verify/simulator-smoke.sh` | The app installs on a booted simulator, launches, and is still alive 3 seconds later. |
 
 ## Rules
 
 - CI runs **the same command** as local. No CI-only logic.
 - A gate that can't run in some environment **skips loudly**, never
-  passes silently.
+  passes silently. `verify/simulator-smoke.sh` needs a simulator
+  runtime; with none installed it exits non-zero and says so.
 - New behavior lands with its gate in the same PR whenever feasible.
 - A feature's completion promise (ROADMAP.md) should be backed by a gate
   here whenever it can be — evidence that keeps proving itself beats
   evidence produced once.
 - Fixing a flaky or broken gate is always in scope, for any task.
+
+## Known environment
+
+Verified on Xcode 26.2 (build 17C52) with the iOS 18.6 and iOS 26.x
+simulator runtimes installed. `verify/lib.sh` picks the newest available
+iPhone simulator; it does not pin a device name.

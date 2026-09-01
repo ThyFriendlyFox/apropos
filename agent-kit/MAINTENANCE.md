@@ -8,7 +8,7 @@
 | Dependency updates | Weekly (automated) | Merge green Dependabot PRs; batch minors |
 | Security advisories | Immediately | SECURITY.md |
 | Stale sweep | Automated | `stale.yml` (CI.md) |
-| Health check | Per PR + nightly | `{{VERIFY_CMD}}` in CI |
+| Health check | Per PR + nightly | `verify/verify.sh` in CI |
 
 ## Triage labels
 

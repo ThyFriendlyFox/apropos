@@ -1,42 +1,22 @@
-# DEVLOG.md — the live devlog
+# DEVLOG.md — append-only history
 
-The plain history of this project. A person who knows nothing about the
-code reads this file and knows what happened, in order, with no jargon.
-Append only. Never rewrite an old entry — a wrong entry gets a
-correction entry, not an edit.
+## 2026-09-01 — Native iOS shell lands
 
-Write every entry in the voice of `TONE.md`.
+I installed the agent kit and pointed the project at a native iPhone app.
+The Next.js surface in `src/` stays as a web demo. It is not the product.
 
-## Entry shape
+What shipped:
 
-Every entry has the same shape:
+- `ios/` holds a SwiftUI app, generated from `ios/project.yml` by
+  xcodegen. Bundle id `com.thyfriendlyfox.reporunner`, iOS 17 minimum.
+- GitHub OAuth device flow. It needs a client ID and no client secret,
+  which is the only OAuth shape safe inside an app binary.
+- The token goes to the Keychain. A test asserts it never reaches a URL.
+- Repo list with search, pull to refresh, and paging.
+- `verify/verify.sh`: regenerate, build with warnings as errors, 16 unit
+  tests, then install and launch on a booted simulator.
 
-```
-## YYYY-MM-DD — <one line: what happened>
+Evidence: `verify/verify.sh` green. 16 tests, 0 failures. Screenshot at
+`docs/screenshots/smoke.png` shows the Sign in with GitHub screen.
 
-<What we did. What worked. What broke. What we learned.
-3–10 short sentences. Plain words. Past tense for what happened,
-present tense for how things now stand.>
-
-Evidence: <commit / tag / gate run / screenshot>
-```
-
-## When to write
-
-- Every WEEKLY.md cycle writes one entry at step 5 (before merge).
-- A failed or abandoned attempt gets an entry too. The devlog records
-  what happened, not what succeeded. A week with no shipped feature
-  still gets its entry.
-- Out-of-band work (security patch, gate repair, big triage) gets one.
-- SETUP.md writes the first entry: "Installed the agent kit."
-
-## What does not go here
-
-- Code detail that belongs in commit messages.
-- Promises about the future — that is ROADMAP.md.
-- State claims — that is STATUS.md. The devlog is the story; STATUS is
-  the snapshot.
-
----
-
-<!-- Entries below, newest first. -->
+Next: release scanning, then install through `itms-services`.
