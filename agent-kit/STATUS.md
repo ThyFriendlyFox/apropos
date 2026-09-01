@@ -7,17 +7,20 @@ behavior change. The weekly cycle (WEEKLY.md step 5) refreshes it.
 | Area | State | Evidence |
 |---|---|---|
 | Native iOS shell (`ios/`) | ✅ | `verify/verify.sh` green at `a40efa0` |
-| GitHub device-flow sign-in | 🚧 | `DeviceFlowAuthTests`, 6 cases; end-to-end run needs an OAuth client ID |
+| GitHub device-flow sign-in | 🚧 | `DeviceFlowAuthTests`, 6 cases. No end-to-end run: it needs an OAuth client ID only the account owner can create. |
 | Repo list | ✅ | `docs/screenshots/repo-list.png`, live GitHub |
 | Release scanning | ✅ | `ReleaseScannerTests` 8 cases; UI test against `reagent-systems/mouse` v1.4 |
 | Install via `itms-services` | ✅ | 26 install-layer tests; `docs/screenshots/install-sheet.png` reads the live `mouse` .ipa and refuses it by reason |
 | Health gate `verify/verify.sh` | ✅ | 16 tests, 0 failures; build with warnings as errors |
-| Next.js web demo (`src/`) | 🧊 | kept as-is; not the product |
+| Ship-to-phone docs | ✅ | `docs/DEPLOY-TO-PHONE.md` |
+| Next.js web demo (`src/`) | 🧊 | frozen. 54 lint problems, queued as Feature Queue item 1. `src/app/api` is gated and clean. |
 
 States: ✅ done (gated) · 🚧 in progress · ❌ not started · 🧊 frozen/won't do.
 
 ## Current week
 
-- **Shipping:** Feature Queue item 1 — ship-to-phone polish.
+- **Shipping:** between cycles. All four seeded items shipped.
 - **Last release:** none.
-- **Known red:** none. The signed-in half of the smoke gate skips out loud when no GitHub token is present.
+- **Known red:** none. Two gate steps skip out loud without a GitHub
+  token. `verify/lint.sh` covers `src/app/api` and reports, without
+  gating on, the frozen demo's 54 lint problems.

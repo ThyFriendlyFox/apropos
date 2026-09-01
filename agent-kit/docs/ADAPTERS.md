@@ -1,33 +1,32 @@
-# Adapters
+# Transports
 
-<!-- The pluggable seam: the piece users swap to connect this project to
-     their environment. Rename the file to what the repo calls the seam
-     — adapters, providers, backends, drivers, integrations — and update
-     ROUTING.md. Delete the file only if the project genuinely has no
-     pluggable seam.
+The pluggable seam. Repo Runner has one: `Transport`, in
+`ios/RepoRunner/Core/Transport.swift`.
 
-     Same shape for every adapter: what it does, when to use it, the
-     exact config block to enable it. -->
-
-An adapter <one sentence: what an adapter translates or connects>.
-Repo Runner has <N> adapters. Select one with the `<field>` field.
-
-## <adapter-id>
-
-<What it does, in 1–3 sentences. When to use it. The default adapter
-comes first and must be the safe one — it starts nothing destructive.>
-
-```json
-{ "<field>": { "id": "<adapter-id>" } }
+```swift
+protocol Transport: Sendable {
+    func send(_ request: URLRequest) async throws -> (Data, HTTPURLResponse)
+}
 ```
 
-## <adapter-id>
+Everything that touches the network takes one: `GitHubAPI`,
+`DeviceFlowAuth`, `IPAInspector`, and `SessionStore`. Nothing else calls
+`URLSession`.
 
-…
+## Implementations
 
-## Writing a new adapter
+| Transport | Where | When |
+|---|---|---|
+| `URLSession` | `Transport.swift` | The app. The default argument of every initialiser. |
+| `StubTransport` | `RepoRunnerTests/StubTransport.swift` | Unit tests. Answers from a queue of canned replies and records what was sent. |
+| `RangeTransport` | `RepoRunnerTests/TestZip.swift` | Unit tests for `IPAInspector`. Serves one blob and honours `Range`, the way a release-asset host does. |
 
-<!-- The contract: which interface to implement, where it registers,
-     which gate proves it works. A new adapter PR includes: the
-     implementation, its row in this file, its config fields in
-     CONFIGURATION.md, and a gate in VERIFICATION.md. -->
+## The contract for a new transport
+
+1. Return the body and the `HTTPURLResponse`. Never interpret the status
+   code; `GitHubAPI.throwIfFailure` owns that.
+2. Throw `URLError` for transport failures. The API layer maps it to
+   `GitHubError.transport`.
+3. Honour the `Range` header, or answer 200 with the whole body.
+   `RemoteFile` treats a 200 as `rangeNotSupported` and says so.
+4. Be `Sendable`. Calls come from any task.

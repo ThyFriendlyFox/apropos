@@ -35,4 +35,13 @@ Do not add a tooltip, a hint or a help line unless a human asks for one.
 
 | Use | Do not use |
 |---|---|
-| <term> | <its synonyms> |
+| repository | repo (in UI copy; `repo` is fine in code and scope names) |
+| release | version, drop |
+| build | binary, artefact (in UI copy) |
+| artifact | asset (in code; "asset" is GitHub's word for the raw file) |
+| iPhone build | device build, production build |
+| simulator build | sim build |
+| install | sideload, deploy |
+| manifest | plist (in UI copy) |
+| sign in | log in, login (as a verb) |
+| refuse / refusal | error, failure (when the app decided, not the network) |

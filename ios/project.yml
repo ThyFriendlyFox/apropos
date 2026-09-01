@@ -26,6 +26,9 @@ targets:
     platform: iOS
     sources:
       - path: RepoRunner
+    configFiles:
+      Debug: Secrets.xcconfig
+      Release: Secrets.xcconfig
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.thyfriendlyfox.reporunner
@@ -35,8 +38,6 @@ targets:
         TARGETED_DEVICE_FAMILY: "1"
         SUPPORTS_MACCATALYST: NO
         GENERATE_INFOPLIST_FILE: NO
-        # Overridden by ios/Secrets.xcconfig when present; see docs/DEPLOY-TO-PHONE.md.
-        GITHUB_CLIENT_ID: ""
 
   RepoRunnerTests:
     type: bundle.unit-test

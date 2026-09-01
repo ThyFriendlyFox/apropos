@@ -40,6 +40,19 @@ struct RepoListView: View {
     }
 
     @ViewBuilder
+    private func emptyState(_ model: RepoListModel) -> some View {
+        if model.repos.isEmpty {
+            ContentUnavailableView {
+                Label("No repositories", systemImage: "tray")
+            } description: {
+                Text("This account has no repositories Repo Runner can see. Sign in as a different account, or check the app's authorisation on GitHub.")
+            }
+        } else {
+            ContentUnavailableView.search(text: model.query)
+        }
+    }
+
+    @ViewBuilder
     private func listBody(_ model: RepoListModel, index: ReleaseIndex) -> some View {
         @Bindable var model = model
         if model.repos.isEmpty, case .failed(let message) = model.state {
@@ -69,7 +82,7 @@ struct RepoListView: View {
                     }
                 }
                 if model.visibleRepos.isEmpty {
-                    ContentUnavailableView.search(text: model.query)
+                    emptyState(model)
                         .listRowBackground(Color.clear)
                 }
             }

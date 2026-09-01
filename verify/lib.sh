@@ -38,6 +38,9 @@ print(best[1] if best else "")')"
 
 regenerate_project() {
   command -v xcodegen >/dev/null || die "xcodegen is not installed (brew install xcodegen)"
+  # Secrets.xcconfig is gitignored, and xcodegen fails on a missing config
+  # file. A fresh clone gets the empty template so every gate still runs.
+  [ -f "$IOS_DIR/Secrets.xcconfig" ] || cp "$IOS_DIR/Secrets.example.xcconfig" "$IOS_DIR/Secrets.xcconfig"
   ( cd "$IOS_DIR" && xcodegen generate --quiet )
 }
 
