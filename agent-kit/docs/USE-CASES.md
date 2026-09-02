@@ -38,3 +38,10 @@ stops.
 
 The developer opens the generated project, sets their team, picks their
 iPhone, and runs. A doc names the exact steps and the exact settings.
+
+## UC-7 — Play with this morning's build, on the phone, now
+
+The developer ships a repo with a web build attached to its release. On
+the train, they open Apropos, tap the repo, and the app is running inside
+Apropos a few seconds later. There is no Mac in the story, no signing, no
+Home Screen icon, and nothing installed.

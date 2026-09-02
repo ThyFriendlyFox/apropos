@@ -7,53 +7,55 @@ building, it gets added here first. One item ships per weekly cycle
 
 ## North star
 
-Apropos is a native iPhone app that turns a GitHub account into a
-personal app store. The owner ships a build to a repo's Releases page,
-opens Apropos on the phone, taps the repo, and runs that build. No
-TestFlight, no cable, no Xcode on the phone side.
+Apropos is a phone-only app runner. Any repo whose release carries a
+mobile app opens *inside* Apropos and is playable there. The owner never
+touches a desktop to run one, never signs anything, and never installs
+anything. Apropos ships its own web build, so it appears in its own list.
+
+Installing a native `.ipa` to the Home Screen stays as a secondary path
+for builds that are signed for it. It is not the main way to run a repo,
+because iOS gates it behind a Mac.
 
 ## Feature Queue — ordered; top unblocked item ships next
 
-### 1. Clear the frozen web demo's lint debt
-- **Promise:** `npx eslint src` reports 0 errors and 0 warnings, and
-  `verify/lint.sh` gates all of `src/` instead of only `src/app/api`.
-- **Evidence:** `verify/lint.sh` green with the wider scope.
-- **Use case:** UC-6 — a clean gate is what makes the deploy steps
-  trustworthy.
-- **Scope guard:** No redesign of the demo. Lint only.
+### 1. Run a release's web app inside Apropos
+- **Promise:** Tapping Run on a release that carries a web bundle opens
+  that app full screen inside Apropos on a phone or simulator, playable,
+  with no desktop step and nothing installed.
+- **Evidence:** A UI test drives Run on a real GitHub release and asserts
+  the app's own content is on screen inside Apropos; a screenshot shows it.
+- **Use case:** UC-7.
+- **Scope guard:** No native `.ipa` execution — iOS cannot run one inside
+  another app. No code execution outside the web view.
 - **Status:** ready
 
-### 2. Notify when a watched repo publishes a build
-- **Promise:** Marking a repository as watched makes Apropos show a
-  badge on next launch when that repository has published a release with
-  an `.ipa` since the last time it was opened.
-- **Evidence:** A unit test over the stored watermark, plus a UI test that
-  the badge appears and clears.
-- **Use case:** UC-4 — the developer wants the new build, not to go
-  looking for it.
-- **Scope guard:** No push notifications. In-app only; a push server would
-  break the no-backend invariant.
+### 2. Detect what a release can run
+- **Promise:** A repo row says how its latest release can be run — inside
+  Apropos, installed to the Home Screen, or not at all — and the detail
+  screen names the asset behind that answer.
+- **Evidence:** `ReleaseScannerTests` covers every payload shape; a
+  screenshot of the list with mixed verdicts.
+- **Use case:** UC-3, UC-7.
+- **Scope guard:** Classification only.
 - **Status:** ready
 
-### 3. Show what is already on this phone
-- **Promise:** A repository whose installed bundle identifier is present on
-  the device shows the installed version next to the release list.
-- **Evidence:** Unit tests over the version comparison; a screenshot of a
-  repository with an older version installed.
-- **Use case:** UC-4, UC-5.
-- **Scope guard:** iOS gives no list of installed apps. This uses only what
-  `canOpenURL` answers for a declared scheme, and says so when it cannot
-  tell.
-- **Status:** blocked on deciding whether requiring a URL scheme per app is
-  acceptable
+### 3. Apropos ships its own web build
+- **Promise:** The `apropos` repo's latest release carries a web bundle,
+  and Apropos runs itself from its own repo list.
+- **Evidence:** A screenshot of Apropos running Apropos.
+- **Use case:** UC-7.
+- **Scope guard:** The web build is the existing `src/` surface. No second
+  implementation of the phone app.
+- **Status:** ready
 
-### 4. Sign in without creating an OAuth app
-- **Promise:** A first-run user reaches the repo list without visiting
-  github.com/settings/applications/new.
-- **Evidence:** A fresh install signs in with no client ID configured.
-- **Use case:** UC-1.
-- **Scope guard:** No client secret in the binary, ever. A fine-grained
-  personal access token pasted into the app is an acceptable answer.
+### 4. Keep a run where you left it
+- **Promise:** Reopening a repo that was run before resumes it without
+  downloading the bundle again, and a pull to refresh replaces it when the
+  release changed.
+- **Evidence:** A unit test over the cache keyed by release id; a UI test
+  that a second run makes no network call for the bundle.
+- **Use case:** UC-7.
+- **Scope guard:** No offline mode for apps that need the network.
 - **Status:** ready
 
 ## Later — candidates, not yet specced

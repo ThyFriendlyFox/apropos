@@ -15,6 +15,7 @@ enum ZipError: LocalizedError, Equatable {
     case entryNotFound(String)
     case corruptEntry(String)
     case unsupportedCompression(UInt16)
+    case unsafeEntry(String)
 
     var errorDescription: String? {
         switch self {
@@ -22,7 +23,8 @@ enum ZipError: LocalizedError, Equatable {
         case .unsupportedZip64: return "The .ipa uses a ZIP64 layout this app cannot read."
         case .entryNotFound(let name): return "The .ipa has no \(name)."
         case .corruptEntry(let name): return "The entry \(name) in the .ipa is malformed."
-        case .unsupportedCompression(let method): return "The .ipa uses compression method \(method)."
+        case .unsupportedCompression(let method): return "The archive uses compression method \(method)."
+        case .unsafeEntry(let name): return "The archive contains an entry that writes outside its folder: \(name)."
         }
     }
 }
@@ -138,5 +140,81 @@ enum ZipDirectory {
     private static func u32(_ bytes: [UInt8], _ index: Int) -> UInt32 {
         UInt32(bytes[index]) | UInt32(bytes[index + 1]) << 8
             | UInt32(bytes[index + 2]) << 16 | UInt32(bytes[index + 3]) << 24
+    }
+}
+
+extension ZipDirectory {
+    /// Unpacks every file entry into `directory`. Used for web bundles,
+    /// which are small enough to hold in memory; the `.ipa` path reads
+    /// ranges instead.
+    ///
+    /// Entry names come from the archive, so they are untrusted. Any name
+    /// that escapes `directory` is refused rather than written.
+    @discardableResult
+    static func extractAll(_ data: Data, to directory: URL) throws -> [URL] {
+        let end = try findEnd(inTail: data.suffix(min(maxEndRecordSize, data.count)),
+                              tailStartsAt: max(0, data.count - maxEndRecordSize))
+        let start = end.centralDirectoryOffset
+        let directoryData = data.subdata(in: start..<(start + end.centralDirectorySize))
+        let entries = try parseCentralDirectory(directoryData)
+
+        let root = directory.standardizedFileURL
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+
+        var written: [URL] = []
+        for entry in entries {
+            guard !entry.name.hasSuffix("/") else { continue }
+            guard let destination = safeDestination(for: entry.name, under: root) else {
+                throw ZipError.unsafeEntry(entry.name)
+            }
+            let headerEnd = min(entry.localHeaderOffset + 30, data.count)
+            guard entry.localHeaderOffset >= 0, headerEnd > entry.localHeaderOffset else {
+                throw ZipError.corruptEntry(entry.name)
+            }
+            let header = data.subdata(in: entry.localHeaderOffset..<headerEnd)
+            let dataStart = try dataOffset(localHeader: header, entry: entry)
+            let dataEnd = dataStart + entry.compressedSize
+            guard dataEnd <= data.count else { throw ZipError.corruptEntry(entry.name) }
+            let payload = try decompress(data.subdata(in: dataStart..<dataEnd), entry: entry)
+
+            try FileManager.default.createDirectory(
+                at: destination.deletingLastPathComponent(),
+                withIntermediateDirectories: true
+            )
+            try payload.write(to: destination)
+            written.append(destination)
+        }
+        return written
+    }
+
+    /// Refuses absolute paths and any `..` that would climb out of `root`.
+    static func safeDestination(for name: String, under root: URL) -> URL? {
+        guard !name.hasPrefix("/"), !name.contains("\0") else { return nil }
+        var components: [String] = []
+        for part in name.split(separator: "/") {
+            switch part {
+            case ".": continue
+            case "..":
+                if components.isEmpty { return nil }
+                components.removeLast()
+            default: components.append(String(part))
+            }
+        }
+        guard !components.isEmpty else { return nil }
+        return components.reduce(root) { $0.appendingPathComponent($1) }
+    }
+
+    /// The single entry a web bundle is served from. Prefers the shallowest
+    /// `index.html`, because build tools often nest the whole site one
+    /// folder deep inside the archive.
+    static func findIndex(under root: URL) -> URL? {
+        let manager = FileManager.default
+        guard let walker = manager.enumerator(at: root, includingPropertiesForKeys: nil) else { return nil }
+        var best: (depth: Int, url: URL)?
+        for case let url as URL in walker where url.lastPathComponent.lowercased() == "index.html" {
+            let depth = url.pathComponents.count
+            if best == nil || depth < best!.depth { best = (depth, url) }
+        }
+        return best?.url
     }
 }

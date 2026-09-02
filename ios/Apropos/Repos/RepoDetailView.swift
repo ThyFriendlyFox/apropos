@@ -84,6 +84,7 @@ struct ReleaseCard: View {
     let scanned: ScannedRelease
 
     @State private var showingInstall = false
+    @State private var runningArtifact: Artifact?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -124,6 +125,17 @@ struct ReleaseCard: View {
             }
 
             HStack(spacing: 16) {
+                if let web = scanned.webBundle {
+                    Button {
+                        runningArtifact = web
+                    } label: {
+                        Label("Run", systemImage: "play.fill")
+                            .font(.subheadline.weight(.semibold))
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.small)
+                    .accessibilityIdentifier("run-\(scanned.release.tagName)")
+                }
                 if !scanned.artifacts.isEmpty {
                     Button {
                         showingInstall = true
@@ -131,8 +143,11 @@ struct ReleaseCard: View {
                         Label("Install", systemImage: "arrow.down.to.line")
                             .font(.subheadline.weight(.semibold))
                     }
-                    .buttonStyle(.borderedProminent)
+                    // Run is the primary action whenever the release can
+                    // run, so Install steps back to a plain button.
+                    .buttonStyle(.bordered)
                     .controlSize(.small)
+                    .tint(scanned.webBundle == nil ? Theme.accent : Color.white.opacity(0.5))
                     .accessibilityIdentifier("install-\(scanned.release.tagName)")
                 }
                 Spacer()
@@ -148,6 +163,9 @@ struct ReleaseCard: View {
         .cardSurface()
         .sheet(isPresented: $showingInstall) {
             InstallSheet(repo: repo, scanned: scanned)
+        }
+        .fullScreenCover(item: $runningArtifact) { artifact in
+            WebAppView(repo: repo, scanned: scanned, artifact: artifact)
         }
     }
 }
