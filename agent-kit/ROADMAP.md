@@ -70,7 +70,7 @@ TestFlight, no cable, no Xcode on the phone side.
 | 2026-09-01 | Ship-to-phone polish | unreleased | `docs/DEPLOY-TO-PHONE.md`; app icon, launch screen, search, pull to refresh, empty and error states with retry, sign out; `verify/verify.sh` green |
 | 2026-09-01 | One-tap install of a release build | unreleased | `InstallPlannerTests` 10 cases, `InstallManifestTests` 5, `IPAInspectorTests` 11; `InstallSheetUITests` against the live `mouse` .ipa; `docs/screenshots/install-sheet.png` |
 | 2026-09-01 | Release scanning and iOS artifact detection | unreleased | `ReleaseScannerTests`, 8 cases; `RepoBrowsingUITests` against `reagent-systems/mouse`; `docs/screenshots/repo-detail.png` |
-| 2026-09-01 | Native iOS shell with GitHub device-flow sign-in | unreleased | `verify/verify.sh` green at `a40efa0`; `docs/screenshots/onboarding.png` and `docs/screenshots/repo-list.png`. **Gap:** the device flow is proven by `DeviceFlowAuthTests` only. An end-to-end run needs an OAuth client ID; the account owner is creating one. |
+| 2026-09-01 | Native iOS shell with GitHub device-flow sign-in | unreleased | `verify/verify.sh` green at `a40efa0`; `docs/screenshots/onboarding.png`, `docs/screenshots/repo-list.png`, and `docs/screenshots/device-flow-signed-in.png` from a real device-flow sign-in on the simulator. |
 
 ## Explicitly not doing
 
@@ -95,3 +95,5 @@ TestFlight, no cable, no Xcode on the phone side.
   keeping `verify/lint.sh` from gating the whole repository.
 - 2026-09-01 — Item 3 is marked blocked, not ready. iOS gives an app no
   list of installed apps, so the design question comes before the code.
+- 2026-09-01 — Closed item 1's evidence gap. A real device-flow sign-in
+  ran on the simulator with the owner's OAuth client ID.

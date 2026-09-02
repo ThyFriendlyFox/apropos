@@ -52,8 +52,17 @@ ID and no client secret.
    put it in `ios/Secrets.xcconfig` before building:
 
    ```
-   GITHUB_CLIENT_ID = Iv1.0123456789abcdef
+   GITHUB_CLIENT_ID = Ov23li0123456789abcd
    ```
+
+### The token on the simulator
+
+A simulator build is signed ad hoc and carries no keychain entitlement, so
+the Keychain refuses every write with `errSecMissingEntitlement`
+(`-34018`). Repo Runner keeps the token in memory for that run and says so
+in an orange banner. A build signed with your team, which is every build
+that reaches a phone, gets the entitlement from its provisioning profile
+and persists the token normally.
 
 The app asks for the `repo` scope. That is the narrowest OAuth scope that
 still lists private repositories and their releases; OAuth apps have no

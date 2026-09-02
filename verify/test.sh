@@ -4,6 +4,10 @@ set -euo pipefail
 source "$(dirname "$0")/lib.sh"
 
 UDID="${SIM_UDID:-$(pick_simulator)}"
+# A copy installed by hand outside the gate leaves the test host pointing at
+# a dead container, which xcodebuild reports as a missing test bundle.
+xcrun simctl uninstall "$UDID" "$BUNDLE_ID" >/dev/null 2>&1 || true
+
 step "Run RepoRunnerTests on simulator $UDID"
 set +e
 xcodebuild test \

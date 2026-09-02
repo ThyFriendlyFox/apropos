@@ -34,7 +34,7 @@ struct SettingsView: View {
                 }
 
                 Section {
-                    TextField("Iv1.0123456789abcdef", text: $clientID)
+                    TextField("Ov23li0123456789abcd", text: $clientID)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                         .font(.system(.footnote, design: .monospaced))

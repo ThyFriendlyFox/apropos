@@ -13,36 +13,37 @@ final class SessionStore {
 
     private(set) var phase: Phase = .restoring
     private(set) var errorMessage: String?
+    /// Set when the token is good but could not be persisted. Sign-in still
+    /// succeeded, so this is a notice, not an error.
+    private(set) var persistenceWarning: String?
     private(set) var clientID: String? = AppConfig.clientID
 
     private let transport: Transport
-    private let tokens: TokenStore
+    private let tokens: TokenStoring
+    /// Authoritative for this run. The store is persistence, not the source
+    /// of truth: a store that cannot write must not break sign-in.
+    private var sessionToken: String?
     private var pollTask: Task<Void, Never>?
 
-    init(transport: Transport = URLSession.shared, tokens: TokenStore = .shared) {
+    init(transport: Transport = URLSession.shared, tokens: TokenStoring = KeychainTokenStore.shared) {
         self.transport = transport
         self.tokens = tokens
     }
 
-    var api: GitHubAPI {
-        let tokens = self.tokens
-        #if DEBUG
-        if let injected = InjectedToken.value {
-            return GitHubAPI(transport: transport, token: { injected })
-        }
-        #endif
-        return GitHubAPI(transport: transport, token: { tokens.read() })
-    }
-
-    private var storedToken: String? {
+    private var currentToken: String? {
         #if DEBUG
         if let injected = InjectedToken.value { return injected }
         #endif
-        return tokens.read()
+        return sessionToken ?? tokens.read()
+    }
+
+    var api: GitHubAPI {
+        let token = currentToken
+        return GitHubAPI(transport: transport, token: { token })
     }
 
     func restore() async {
-        guard storedToken != nil else {
+        guard currentToken != nil else {
             phase = .signedOut
             return
         }
@@ -50,6 +51,7 @@ final class SessionStore {
             phase = .signedIn(try await api.currentUser())
         } catch GitHubError.unauthorized {
             tokens.clear()
+            sessionToken = nil
             phase = .signedOut
             errorMessage = GitHubError.unauthorized.localizedDescription
         } catch {
@@ -70,6 +72,7 @@ final class SessionStore {
             return
         }
         errorMessage = nil
+        persistenceWarning = nil
         pollTask?.cancel()
         let auth = DeviceFlowAuth(clientID: clientID, transport: transport)
         pollTask = Task { [weak self] in
@@ -77,14 +80,22 @@ final class SessionStore {
                 let code = try await auth.requestCode()
                 guard let self, !Task.isCancelled else { return }
                 self.phase = .awaitingApproval(code)
+
                 let token = try await auth.awaitToken(for: code)
                 guard !Task.isCancelled else { return }
-                self.tokens.write(token)
+
+                // Hold the token before persisting it. Reading it back from
+                // the store would turn a storage failure into a 401.
+                self.sessionToken = token
+                if !self.tokens.write(token) {
+                    self.persistenceWarning = "This build cannot write to the Keychain, so the token is kept for this run only. You will sign in again after the app restarts."
+                }
                 self.phase = .signedIn(try await self.api.currentUser())
             } catch is CancellationError {
                 return
             } catch {
                 guard let self, !Task.isCancelled else { return }
+                self.sessionToken = nil
                 self.errorMessage = error.localizedDescription
                 self.phase = .signedOut
             }
@@ -100,8 +111,10 @@ final class SessionStore {
     func signOut() {
         pollTask?.cancel()
         pollTask = nil
+        sessionToken = nil
         tokens.clear()
         errorMessage = nil
+        persistenceWarning = nil
         phase = .signedOut
     }
 

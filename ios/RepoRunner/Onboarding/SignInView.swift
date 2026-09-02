@@ -92,7 +92,7 @@ struct ClientIDView: View {
         NavigationStack {
             Form {
                 Section {
-                    TextField("Iv1.0123456789abcdef", text: $value)
+                    TextField("Ov23li0123456789abcd", text: $value)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                         .font(.system(.body, design: .monospaced))

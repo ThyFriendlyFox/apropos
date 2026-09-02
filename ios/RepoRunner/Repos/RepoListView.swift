@@ -68,6 +68,17 @@ struct RepoListView: View {
             ProgressView("Loading repositories").controlSize(.large)
         } else {
             List {
+                if let warning = session.persistenceWarning {
+                    Label(warning, systemImage: "exclamationmark.triangle")
+                        .font(.footnote)
+                        .foregroundStyle(.orange)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .cardSurface(padding: 12)
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets(top: 5, leading: 16, bottom: 5, trailing: 16))
+                        .accessibilityIdentifier("persistence-warning")
+                }
                 ForEach(model.visibleRepos) { repo in
                     NavigationLink(value: repo) {
                         RepoRow(repo: repo, entry: index.entry(for: repo))

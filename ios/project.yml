@@ -36,6 +36,7 @@ targets:
         INFOPLIST_FILE: RepoRunner/Resources/Info.plist
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         TARGETED_DEVICE_FAMILY: "1"
+        # Simulator only. Device builds sign with the profile Xcode makes.
         SUPPORTS_MACCATALYST: NO
         GENERATE_INFOPLIST_FILE: NO
 

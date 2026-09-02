@@ -14,6 +14,10 @@ fi
 RESULTS="$DERIVED/ui-tests.xcresult"
 rm -rf "$RESULTS"
 
+# A copy installed by hand outside the gate leaves the test host pointing at
+# a dead container, which xcodebuild reports as a missing test bundle.
+xcrun simctl uninstall "$UDID" "$BUNDLE_ID" >/dev/null 2>&1 || true
+
 step "Run RepoRunnerUITests on simulator $UDID"
 set +e
 TEST_RUNNER_REPORUNNER_TOKEN="$TOKEN" xcodebuild test \
