@@ -50,3 +50,29 @@ Not proven: the device flow end to end. It needs an OAuth client ID that
 only the account owner can create. The six unit tests cover the state
 machine, including that GitHub answers HTTP 200 with an error body while
 approval is pending.
+
+## 2026-09-02 — The app runs repos instead of installing them
+
+I had been solving the wrong problem. Installing a native `.ipa` is gated
+by iOS behind signing, a provisioning profile, and a registered device,
+which means a Mac. Running a release *inside* Apropos is gated by nothing.
+
+What shipped:
+
+- Run. A release carrying a `.zip` with an `index.html` is downloaded,
+  unpacked into the app's container, and served to a web view from a
+  loopback HTTP server. A real `http://127.0.0.1` origin, not `file://`,
+  so `fetch`, absolute paths, and client-side routes work in an ordinary
+  static build.
+- Row badges say how a repo runs: "Runs here" or "iOS build".
+- A reusable GitHub Actions workflow. Pushing a tag builds the bundle and
+  attaches it, so publishing needs no terminal.
+- Apropos ships its own web build and runs itself.
+
+Evidence: `verify/verify.sh` green. 75 unit tests, 3 skipped. 4 UI tests,
+including one that presses Run on the real release and asserts the
+bundle's own content renders inside the app. v0.2.1 was built and
+attached by CI.
+
+Not verified: a physical iPhone. The runner has no device-specific branch,
+but I have no device.

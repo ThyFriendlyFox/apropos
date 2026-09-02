@@ -26,18 +26,7 @@ because iOS gates it behind a Mac.
 - **Scope guard:** Lint only.
 - **Status:** ready
 
-### 2. Publish a runnable bundle from any repo, from the phone
-- **Promise:** A repo with a web app gets a runnable release without the
-  owner opening a terminal: a reusable GitHub Actions workflow builds the
-  bundle and attaches it on every tag.
-- **Evidence:** The workflow runs green on this repo and the resulting
-  release shows "Runs here" in the list.
-- **Use case:** UC-7 — the goal is no desktop, and `verify/build-web.sh`
-  is still a desktop step.
-- **Scope guard:** Static web builds only.
-- **Status:** ready
-
-### 3. Say why a repo cannot run
+### 2. Say why a repo cannot run
 - **Promise:** A repo whose latest release has nothing runnable shows the
   reason on the detail screen, naming what to attach.
 - **Evidence:** A screenshot against a repo with a release and no bundle.
@@ -56,6 +45,7 @@ because iOS gates it behind a Mac.
 
 | Week | Feature | Release | Evidence |
 |---|---|---|---|
+| 2026-09-02 | Publish a runnable bundle from a tag | v0.2.1 | `.github/workflows/build-web-bundle.yml`; v0.2.1's `apropos-web.zip` was built and attached by CI with no local build |
 | 2026-09-02 | Keep a run where you left it | v0.2.0 | `WebAppStoreTests.testASecondRunUsesTheCachedCopy`: the bundle is downloaded once per release id |
 | 2026-09-02 | Apropos ships its own web build | v0.2.0 | `verify/build-web.sh`; the v0.2.0 release carries `apropos-web-v0.2.0.zip`; `docs/screenshots/running-inside.png` is Apropos running Apropos |
 | 2026-09-02 | Detect what a release can run | v0.2.0 | `ReleaseScannerTests`, 13 cases; the row badge reads "Runs here" or "iOS build" |
