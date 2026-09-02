@@ -54,3 +54,7 @@ ios/Secrets.xcconfig
 
 # demo recordings are large binaries; regenerate with simctl io recordVideo
 docs/recordings/
+
+# CI bundle build output
+/web-out/
+/.web-src/

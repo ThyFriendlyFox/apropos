@@ -1,0 +1,19 @@
+name: Release
+
+# Pushing a tag is the whole publish step. It can be done from the GitHub
+# app on a phone, which is the point: no desktop between a commit and
+# playing with the build.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  web-bundle:
+    uses: ./.github/workflows/build-web-bundle.yml
+    with:
+      build_command: verify/build-web-ci.sh
+      output_dir: web-out
+      asset_name: apropos-web.zip

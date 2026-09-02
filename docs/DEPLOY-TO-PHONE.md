@@ -104,7 +104,37 @@ npx vercel deploy --prod
 The endpoint is `https://<your-deployment>/api/manifest`. It serves GitHub
 release assets only.
 
-## 6. Ship a build your phone can install
+## 6. Make any repo runnable, without a terminal
+
+Apropos runs any release asset that is a `.zip` containing an `index.html`.
+Add one workflow to a repo and pushing a tag is the whole publish step,
+which the GitHub app on a phone can do:
+
+```yaml
+# .github/workflows/release.yml
+name: Release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  bundle:
+    uses: ThyFriendlyFox/apropos/.github/workflows/build-web-bundle.yml@main
+    with:
+      build_command: npm run build
+      output_dir: dist
+```
+
+Set `build_command` and `output_dir` to whatever your project uses
+(`out` for a Next.js export, `build` for Create React App, `dist` for Vite
+and SvelteKit). The workflow fails loudly when the build produces no
+`index.html`, rather than attaching something Apropos cannot run.
+
+Then, from the phone: tag a commit in the GitHub app, wait for the action,
+pull to refresh in Apropos, press Run.
+
+## 7. Ship a build your phone can install
 
 From the app repository you want to run:
 
