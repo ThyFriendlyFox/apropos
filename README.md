@@ -1,18 +1,26 @@
 # Apropos
 
-Your GitHub releases, installed on your iPhone. Ship a build to a repo's
-Releases page, open Apropos on the phone, tap the repo, run it. No
-TestFlight, no cable.
+Your repos, playable on your phone. Attach a built web app to a repo's
+release, open Apropos, tap the repo, press Run. The app opens *inside*
+Apropos. Nothing is installed, nothing is signed, and no desktop is
+involved.
+
+Apropos ships its own web build, so it appears in its own list and can run
+itself.
 
 ![Onboarding, repo list, and install sheet](docs/screenshots/install-sheet.png)
 
 ## What it does
 
+- **Runs a release inside itself.** A `.zip` containing `index.html` is
+  downloaded, unpacked into the app's container, and served from a
+  loopback HTTP server to a web view. A real origin, so `fetch`, absolute
+  paths, and client-side routes work in an ordinary static build.
 - Signs in with GitHub through the OAuth device flow. No client secret, no
   backend. The token stays in the phone's Keychain.
 - Lists your repositories, most recently pushed first, with search and pull
   to refresh.
-- Marks the repos whose latest release carries an installable iOS build.
+- Badges each repo with how it can be run: "Runs here" or "iOS build".
 - Reads the `.ipa`'s bundle identifier, version, and signature over HTTP
   range requests, so it never downloads the archive to tell you what it is.
 - Installs through `itms-services://`, which is the only way iOS lets an app
@@ -20,6 +28,18 @@ TestFlight, no cable.
 - Names the reason when it cannot install: no `.ipa`, a simulator-only
   build, a private release asset, an App Store signature, or no manifest
   host.
+
+## Ship a repo you can play with
+
+Attach a built web app to a release. Any `.zip` with an `index.html` works:
+
+```sh
+npm run build          # or whatever produces your static site
+cd dist && zip -qry ../web.zip . && cd ..
+gh release create v1.0.0 web.zip
+```
+
+Pull to refresh in Apropos. The repo shows "Runs here", and Run opens it.
 
 ## Run it
 

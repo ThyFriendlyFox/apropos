@@ -156,17 +156,28 @@ struct RepoRow: View {
         .accessibilityElement(children: .contain)
     }
 
+    /// Says how the latest release can be run. Running inside Apropos is
+    /// the answer that needs no desktop, so it wins when both are true.
     @ViewBuilder
     private var badge: some View {
-        if case .found(let scanned) = entry, scanned.isInstallable {
-            Label("iOS build", systemImage: "iphone")
-                .font(.caption2.weight(.semibold))
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .background(Theme.accent.opacity(0.16), in: Capsule())
-                .foregroundStyle(Theme.accent)
-                .accessibilityIdentifier("ios-build-badge")
+        if case .found(let scanned) = entry {
+            if scanned.isRunnableInApropos {
+                pill("Runs here", icon: "play.fill", tint: Theme.accent)
+                    .accessibilityIdentifier("runs-here-badge")
+            } else if scanned.isInstallable {
+                pill("iOS build", icon: "iphone", tint: .white.opacity(0.55))
+                    .accessibilityIdentifier("ios-build-badge")
+            }
         }
+    }
+
+    private func pill(_ text: String, icon: String, tint: Color) -> some View {
+        Label(text, systemImage: icon)
+            .font(.caption2.weight(.semibold))
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
+            .background(tint.opacity(0.16), in: Capsule())
+            .foregroundStyle(tint)
     }
 }
 

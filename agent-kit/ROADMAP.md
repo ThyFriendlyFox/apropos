@@ -7,53 +7,42 @@ building, it gets added here first. One item ships per weekly cycle
 
 ## North star
 
-Apropos is a native iPhone app that turns a GitHub account into a
-personal app store. The owner ships a build to a repo's Releases page,
-opens Apropos on the phone, taps the repo, and runs that build. No
-TestFlight, no cable, no Xcode on the phone side.
+Apropos is a phone-only app runner. Any repo whose release carries a
+mobile app opens *inside* Apropos and is playable there. The owner never
+touches a desktop to run one, never signs anything, and never installs
+anything. Apropos ships its own web build, so it appears in its own list.
+
+Installing a native `.ipa` to the Home Screen stays as a secondary path
+for builds that are signed for it. It is not the main way to run a repo,
+because iOS gates it behind a Mac.
 
 ## Feature Queue — ordered; top unblocked item ships next
 
 ### 1. Clear the frozen web demo's lint debt
 - **Promise:** `npx eslint src` reports 0 errors and 0 warnings, and
-  `verify/lint.sh` gates all of `src/` instead of only `src/app/api`.
+  `verify/lint.sh` gates all of `src/`.
 - **Evidence:** `verify/lint.sh` green with the wider scope.
-- **Use case:** UC-6 — a clean gate is what makes the deploy steps
-  trustworthy.
-- **Scope guard:** No redesign of the demo. Lint only.
+- **Use case:** UC-6.
+- **Scope guard:** Lint only.
 - **Status:** ready
 
-### 2. Notify when a watched repo publishes a build
-- **Promise:** Marking a repository as watched makes Apropos show a
-  badge on next launch when that repository has published a release with
-  an `.ipa` since the last time it was opened.
-- **Evidence:** A unit test over the stored watermark, plus a UI test that
-  the badge appears and clears.
-- **Use case:** UC-4 — the developer wants the new build, not to go
-  looking for it.
-- **Scope guard:** No push notifications. In-app only; a push server would
-  break the no-backend invariant.
+### 2. Publish a runnable bundle from any repo, from the phone
+- **Promise:** A repo with a web app gets a runnable release without the
+  owner opening a terminal: a reusable GitHub Actions workflow builds the
+  bundle and attaches it on every tag.
+- **Evidence:** The workflow runs green on this repo and the resulting
+  release shows "Runs here" in the list.
+- **Use case:** UC-7 — the goal is no desktop, and `verify/build-web.sh`
+  is still a desktop step.
+- **Scope guard:** Static web builds only.
 - **Status:** ready
 
-### 3. Show what is already on this phone
-- **Promise:** A repository whose installed bundle identifier is present on
-  the device shows the installed version next to the release list.
-- **Evidence:** Unit tests over the version comparison; a screenshot of a
-  repository with an older version installed.
-- **Use case:** UC-4, UC-5.
-- **Scope guard:** iOS gives no list of installed apps. This uses only what
-  `canOpenURL` answers for a declared scheme, and says so when it cannot
-  tell.
-- **Status:** blocked on deciding whether requiring a URL scheme per app is
-  acceptable
-
-### 4. Sign in without creating an OAuth app
-- **Promise:** A first-run user reaches the repo list without visiting
-  github.com/settings/applications/new.
-- **Evidence:** A fresh install signs in with no client ID configured.
-- **Use case:** UC-1.
-- **Scope guard:** No client secret in the binary, ever. A fine-grained
-  personal access token pasted into the app is an acceptable answer.
+### 3. Say why a repo cannot run
+- **Promise:** A repo whose latest release has nothing runnable shows the
+  reason on the detail screen, naming what to attach.
+- **Evidence:** A screenshot against a repo with a release and no bundle.
+- **Use case:** UC-5.
+- **Scope guard:** Copy and detection only.
 - **Status:** ready
 
 ## Later — candidates, not yet specced
@@ -67,6 +56,10 @@ TestFlight, no cable, no Xcode on the phone side.
 
 | Week | Feature | Release | Evidence |
 |---|---|---|---|
+| 2026-09-02 | Keep a run where you left it | v0.2.0 | `WebAppStoreTests.testASecondRunUsesTheCachedCopy`: the bundle is downloaded once per release id |
+| 2026-09-02 | Apropos ships its own web build | v0.2.0 | `verify/build-web.sh`; the v0.2.0 release carries `apropos-web-v0.2.0.zip`; `docs/screenshots/running-inside.png` is Apropos running Apropos |
+| 2026-09-02 | Detect what a release can run | v0.2.0 | `ReleaseScannerTests`, 13 cases; the row badge reads "Runs here" or "iOS build" |
+| 2026-09-02 | Run a release's web app inside Apropos | v0.2.0 | `RunInsideUITests` drives Run on the real release and asserts the app's own content renders inside Apropos |
 | 2026-09-01 | Ship-to-phone polish | v0.1.0 | `docs/DEPLOY-TO-PHONE.md`; app icon, launch screen, search, pull to refresh, empty and error states with retry, sign out; `verify/verify.sh` green |
 | 2026-09-01 | One-tap install of a release build | v0.1.0 | `InstallPlannerTests` 10 cases, `InstallManifestTests` 5, `IPAInspectorTests` 11; `InstallSheetUITests` against the live `mouse` .ipa; `docs/screenshots/install-sheet.png` |
 | 2026-09-01 | Release scanning and iOS artifact detection | v0.1.0 | `ReleaseScannerTests`, 8 cases; `RepoBrowsingUITests` against `reagent-systems/mouse`; `docs/screenshots/repo-detail.png` |
@@ -97,3 +90,6 @@ TestFlight, no cable, no Xcode on the phone side.
   list of installed apps, so the design question comes before the code.
 - 2026-09-01 — Closed item 1's evidence gap. A real device-flow sign-in
   ran on the simulator with the owner's OAuth client ID.
+- 2026-09-02 — Refilled after the run-inside cycle. Publishing a bundle
+  still needs a terminal, so that is now the top item: it is the last
+  desktop step between a new repo and playing with it on the phone.

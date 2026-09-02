@@ -5,6 +5,24 @@ Format: [Keep a Changelog](https://keepachangelog.com/) · Versioning: [SemVer](
 
 ## [Unreleased]
 
+## [0.2.0] — 2026-09-02
+
+### Added
+- **Run a repo's release inside Apropos.** A release carrying a web bundle
+  opens full screen in the app. The bundle is downloaded, unpacked into the
+  app's container, and served from a loopback HTTP server, so an ordinary
+  static build runs unchanged. Nothing is installed and no desktop is
+  involved.
+- Row badges say how a repo can be run: "Runs here" or "iOS build".
+- Bundles are cached by release id, so a second run makes no network call.
+- `verify/build-web.sh` exports the web surface as a release bundle.
+
+### Changed
+- Install is no longer the primary action on a release that can run.
+- Archive entries are checked before writing; a name that escapes the
+  destination folder is refused.
+
+
 ## [0.1.0] — 2026-09-01
 
 ### Added

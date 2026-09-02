@@ -45,11 +45,11 @@ found=0
 while IFS=$'\t' read -r exported suggested; do
   name="${suggested%%_*}"
   case "$name" in
-    repo-list-badge|repo-detail|install-sheet)
+    repo-list-badge|repo-detail|install-sheet|running-inside)
       cp "$TMP/$exported" "$OUT/$name.png"
       found=$((found+1))
       ;;
   esac
 done < <(jq -r '.[].attachments[] | [.exportedFileName, .suggestedHumanReadableName] | @tsv' "$TMP/manifest.json")
-[ "$found" -eq 3 ] || die "expected 3 exported screenshots, got $found"
+[ "$found" -eq 4 ] || die "expected 4 exported screenshots, got $found"
 ok "exported $found screenshots to docs/screenshots"
