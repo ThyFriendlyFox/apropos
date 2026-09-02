@@ -21,7 +21,7 @@ States: ✅ done (gated) · 🚧 in progress · ❌ not started · 🧊 frozen/w
 ## Current week
 
 - **Shipping:** between cycles. All four seeded items shipped.
-- **Last release:** none.
+- **Last release:** v0.1.0 — 2026-09-01.
 - **Known red:** none. Two gate steps skip out loud without a GitHub
   token. `verify/lint.sh` covers `src/app/api` and reports, without
   gating on, the frozen demo's 54 lint problems.

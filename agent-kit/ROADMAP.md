@@ -67,10 +67,10 @@ TestFlight, no cable, no Xcode on the phone side.
 
 | Week | Feature | Release | Evidence |
 |---|---|---|---|
-| 2026-09-01 | Ship-to-phone polish | unreleased | `docs/DEPLOY-TO-PHONE.md`; app icon, launch screen, search, pull to refresh, empty and error states with retry, sign out; `verify/verify.sh` green |
-| 2026-09-01 | One-tap install of a release build | unreleased | `InstallPlannerTests` 10 cases, `InstallManifestTests` 5, `IPAInspectorTests` 11; `InstallSheetUITests` against the live `mouse` .ipa; `docs/screenshots/install-sheet.png` |
-| 2026-09-01 | Release scanning and iOS artifact detection | unreleased | `ReleaseScannerTests`, 8 cases; `RepoBrowsingUITests` against `reagent-systems/mouse`; `docs/screenshots/repo-detail.png` |
-| 2026-09-01 | Native iOS shell with GitHub device-flow sign-in | unreleased | `verify/verify.sh` green at `a40efa0`; `docs/screenshots/onboarding.png`, `docs/screenshots/repo-list.png`, and `docs/screenshots/device-flow-signed-in.png` from a real device-flow sign-in on the simulator. |
+| 2026-09-01 | Ship-to-phone polish | v0.1.0 | `docs/DEPLOY-TO-PHONE.md`; app icon, launch screen, search, pull to refresh, empty and error states with retry, sign out; `verify/verify.sh` green |
+| 2026-09-01 | One-tap install of a release build | v0.1.0 | `InstallPlannerTests` 10 cases, `InstallManifestTests` 5, `IPAInspectorTests` 11; `InstallSheetUITests` against the live `mouse` .ipa; `docs/screenshots/install-sheet.png` |
+| 2026-09-01 | Release scanning and iOS artifact detection | v0.1.0 | `ReleaseScannerTests`, 8 cases; `RepoBrowsingUITests` against `reagent-systems/mouse`; `docs/screenshots/repo-detail.png` |
+| 2026-09-01 | Native iOS shell with GitHub device-flow sign-in | v0.1.0 | `verify/verify.sh` green at `a40efa0`; `docs/screenshots/onboarding.png`, `docs/screenshots/repo-list.png`, and `docs/screenshots/device-flow-signed-in.png` from a real device-flow sign-in on the simulator. |
 
 ## Explicitly not doing
 
