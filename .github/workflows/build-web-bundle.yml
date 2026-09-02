@@ -1,0 +1,79 @@
+name: Build web bundle
+
+# Reusable. Any repo can attach a runnable bundle to its release without a
+# terminal:
+#
+#   on:
+#     push:
+#       tags: ['v*']
+#   permissions:
+#     contents: write
+#   jobs:
+#     bundle:
+#       uses: ThyFriendlyFox/apropos/.github/workflows/build-web-bundle.yml@main
+#       with:
+#         build_command: npm run build
+#         output_dir: dist
+#
+# Apropos runs any release asset that is a .zip containing an index.html.
+
+on:
+  workflow_call:
+    inputs:
+      build_command:
+        description: Command that produces the static site.
+        type: string
+        default: npm run build
+      output_dir:
+        description: Directory the build writes, relative to the repo root.
+        type: string
+        default: dist
+      node_version:
+        type: string
+        default: "22"
+      asset_name:
+        description: Name of the uploaded zip. Must end in .zip.
+        type: string
+        default: web.zip
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node_version }}
+          cache: npm
+
+      - name: Install
+        run: npm ci || npm install
+
+      - name: Build
+        run: ${{ inputs.build_command }}
+
+      - name: Check the build is runnable
+        run: |
+          if [ ! -f "${{ inputs.output_dir }}/index.html" ]; then
+            echo "::error::${{ inputs.output_dir }}/index.html is missing. Apropos runs a zip that contains an index.html."
+            ls -la "${{ inputs.output_dir }}" || true
+            exit 1
+          fi
+
+      - name: Zip
+        run: cd "${{ inputs.output_dir }}" && zip -qry "$RUNNER_TEMP/${{ inputs.asset_name }}" .
+
+      - name: Attach to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          # The tag push may arrive before a release exists for it.
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            gh release create "$TAG" --title "$TAG" --generate-notes
+          fi
+          gh release upload "$TAG" "$RUNNER_TEMP/${{ inputs.asset_name }}" --clobber
+          echo "Attached ${{ inputs.asset_name }} to $TAG. Pull to refresh in Apropos." >> "$GITHUB_STEP_SUMMARY"
