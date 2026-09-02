@@ -7,7 +7,7 @@ import Foundation
 /// of any Release build.
 enum InjectedToken {
     static var value: String? {
-        let raw = ProcessInfo.processInfo.environment["REPORUNNER_TOKEN"]
+        let raw = ProcessInfo.processInfo.environment["APROPOS_TOKEN"]
         guard let raw, !raw.isEmpty else { return nil }
         return raw
     }

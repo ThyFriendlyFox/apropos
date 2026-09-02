@@ -4,7 +4,7 @@
      messages, release notes. Based on Simplified Technical English.
      AGENTS.md house style governs code; this file governs words. -->
 
-Repo Runner uses one voice for every text.
+Apropos uses one voice for every text.
 The rules keep the text short, clear and easy to translate.
 
 ## Rules

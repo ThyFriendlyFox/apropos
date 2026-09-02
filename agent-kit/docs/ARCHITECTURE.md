@@ -4,16 +4,16 @@ The map a new contributor (or agent) reads before the first change. Tables
 over prose. Keep it current: WEEKLY.md step 5 includes this file when a
 feature moves a boundary.
 
-Repo Runner is a SwiftUI iPhone app, iOS 17 and newer, with no server of
+Apropos is a SwiftUI iPhone app, iOS 17 and newer, with no server of
 its own. The code has six parts.
 
 | Part | Folder | Task |
 |---|---|---|
-| App shell | `ios/RepoRunner/App` | Scene, root routing by auth phase, Settings. |
-| Core | `ios/RepoRunner/Core` | Models, the GitHub client, the device flow, the Keychain, session state. |
-| Onboarding | `ios/RepoRunner/Onboarding` | Sign-in button, device-code screen, client-ID entry. |
-| Repos | `ios/RepoRunner/Repos` | Repository list, release index, repository detail. |
-| Install | `ios/RepoRunner/Install` | Range reads, ZIP and `.ipa` parsing, install planning, the install sheet. |
+| App shell | `ios/Apropos/App` | Scene, root routing by auth phase, Settings. |
+| Core | `ios/Apropos/Core` | Models, the GitHub client, the device flow, the Keychain, session state. |
+| Onboarding | `ios/Apropos/Onboarding` | Sign-in button, device-code screen, client-ID entry. |
+| Repos | `ios/Apropos/Repos` | Repository list, release index, repository detail. |
+| Install | `ios/Apropos/Install` | Range reads, ZIP and `.ipa` parsing, install planning, the install sheet. |
 | Web surface | `src/` | A Next.js app. Its `/api/manifest` route is the optional manifest host. |
 
 ## Data flow — installing this morning's build

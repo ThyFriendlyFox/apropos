@@ -7,9 +7,9 @@ building, it gets added here first. One item ships per weekly cycle
 
 ## North star
 
-Repo Runner is a native iPhone app that turns a GitHub account into a
+Apropos is a native iPhone app that turns a GitHub account into a
 personal app store. The owner ships a build to a repo's Releases page,
-opens Repo Runner on the phone, taps the repo, and runs that build. No
+opens Apropos on the phone, taps the repo, and runs that build. No
 TestFlight, no cable, no Xcode on the phone side.
 
 ## Feature Queue — ordered; top unblocked item ships next
@@ -24,7 +24,7 @@ TestFlight, no cable, no Xcode on the phone side.
 - **Status:** ready
 
 ### 2. Notify when a watched repo publishes a build
-- **Promise:** Marking a repository as watched makes Repo Runner show a
+- **Promise:** Marking a repository as watched makes Apropos show a
   badge on next launch when that repository has published a release with
   an `.ipa` since the last time it was opened.
 - **Evidence:** A unit test over the stored watermark, plus a UI test that

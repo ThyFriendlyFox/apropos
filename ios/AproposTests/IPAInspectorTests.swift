@@ -1,5 +1,5 @@
 import XCTest
-@testable import RepoRunner
+@testable import Apropos
 
 final class IPAInspectorTests: XCTestCase {
     private static func infoPlist(bundleID: String = "com.example.zen") -> Data {

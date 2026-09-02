@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct RepoRunnerApp: App {
+struct AproposApp: App {
     @State private var session = SessionStore()
 
     var body: some Scene {

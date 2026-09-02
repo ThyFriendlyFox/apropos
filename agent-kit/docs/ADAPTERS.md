@@ -1,7 +1,7 @@
 # Transports
 
-The pluggable seam. Repo Runner has one: `Transport`, in
-`ios/RepoRunner/Core/Transport.swift`.
+The pluggable seam. Apropos has one: `Transport`, in
+`ios/Apropos/Core/Transport.swift`.
 
 ```swift
 protocol Transport: Sendable {
@@ -18,8 +18,8 @@ Everything that touches the network takes one: `GitHubAPI`,
 | Transport | Where | When |
 |---|---|---|
 | `URLSession` | `Transport.swift` | The app. The default argument of every initialiser. |
-| `StubTransport` | `RepoRunnerTests/StubTransport.swift` | Unit tests. Answers from a queue of canned replies and records what was sent. |
-| `RangeTransport` | `RepoRunnerTests/TestZip.swift` | Unit tests for `IPAInspector`. Serves one blob and honours `Range`, the way a release-asset host does. |
+| `StubTransport` | `AproposTests/StubTransport.swift` | Unit tests. Answers from a queue of canned replies and records what was sent. |
+| `RangeTransport` | `AproposTests/TestZip.swift` | Unit tests for `IPAInspector`. Serves one blob and honours `Range`, the way a release-asset host does. |
 
 ## The contract for a new transport
 

@@ -5,10 +5,10 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 IOS_DIR="$REPO_ROOT/ios"
 DERIVED="$IOS_DIR/DerivedData"
-PROJECT="$IOS_DIR/RepoRunner.xcodeproj"
-SCHEME="RepoRunner"
-BUNDLE_ID="com.thyfriendlyfox.reporunner"
-APP_PATH="$DERIVED/Build/Products/Debug-iphonesimulator/RepoRunner.app"
+PROJECT="$IOS_DIR/Apropos.xcodeproj"
+SCHEME="Apropos"
+BUNDLE_ID="com.thyfriendlyfox.apropos"
+APP_PATH="$DERIVED/Build/Products/Debug-iphonesimulator/Apropos.app"
 
 step()  { printf '\n\033[1;34m==> %s\033[0m\n' "$*"; }
 ok()    { printf '\033[1;32m    ok: %s\033[0m\n' "$*"; }

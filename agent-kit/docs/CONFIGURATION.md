@@ -1,6 +1,6 @@
 # Configuration
 
-Every knob, in one table, with defaults. Repo Runner has two sources of
+Every knob, in one table, with defaults. Apropos has two sources of
 configuration: values baked in at build time, and values the user sets in
 the app. The in-app value wins.
 
@@ -28,7 +28,7 @@ Stored in `UserDefaults`, except the token.
 |---|---|---|
 | OAuth scope | `AppConfig.scope` | `repo read:user` is the narrowest scope that still lists private repositories and their releases. OAuth apps have no finer grain. |
 | GitHub access token | Keychain, via `TokenStore` | A credential, not a setting. Sign out clears it. |
-| `REPORUNNER_TOKEN` | Launch environment, Debug builds only | A test seam for `verify/`. Release builds do not read it. |
+| `APROPOS_TOKEN` | Launch environment, Debug builds only | A test seam for `verify/`. Release builds do not read it. |
 
 ## Behavior rules
 

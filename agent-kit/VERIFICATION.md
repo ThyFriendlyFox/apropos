@@ -25,7 +25,7 @@
   passes silently. `verify/simulator-smoke.sh` needs a simulator
   runtime; with none installed it exits non-zero and says so. The
   signed-in half of that gate and all of `verify/ui-test.sh` need a
-  GitHub token from `REPORUNNER_TOKEN` or `gh auth token`; without one
+  GitHub token from `APROPOS_TOKEN` or `gh auth token`; without one
   they print `SKIP` and the reason.
 - New behavior lands with its gate in the same PR whenever feasible.
 - A feature's completion promise (ROADMAP.md) should be backed by a gate

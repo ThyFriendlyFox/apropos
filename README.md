@@ -1,7 +1,7 @@
-# Repo Runner
+# Apropos
 
 Your GitHub releases, installed on your iPhone. Ship a build to a repo's
-Releases page, open Repo Runner on the phone, tap the repo, run it. No
+Releases page, open Apropos on the phone, tap the repo, run it. No
 TestFlight, no cable.
 
 ![Onboarding, repo list, and install sheet](docs/screenshots/install-sheet.png)
@@ -25,7 +25,7 @@ TestFlight, no cable.
 
 ```sh
 brew install xcodegen
-cd ios && xcodegen generate && open RepoRunner.xcodeproj
+cd ios && xcodegen generate && open Apropos.xcodeproj
 ```
 
 Then follow [docs/DEPLOY-TO-PHONE.md](docs/DEPLOY-TO-PHONE.md) to sign it

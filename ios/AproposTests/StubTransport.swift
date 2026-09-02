@@ -1,5 +1,5 @@
 import Foundation
-@testable import RepoRunner
+@testable import Apropos
 
 /// Answers requests from a queue of canned responses so no gate needs a
 /// live GitHub.

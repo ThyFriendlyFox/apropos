@@ -1,5 +1,5 @@
 import XCTest
-@testable import RepoRunner
+@testable import Apropos
 
 @MainActor
 final class RepoListModelTests: XCTestCase {

@@ -5,9 +5,9 @@ set -euo pipefail
 source "$(dirname "$0")/lib.sh"
 
 UDID="${SIM_UDID:-$(pick_simulator)}"
-TOKEN="${REPORUNNER_TOKEN:-$(gh auth token 2>/dev/null || true)}"
+TOKEN="${APROPOS_TOKEN:-$(gh auth token 2>/dev/null || true)}"
 if [ -z "$TOKEN" ]; then
-  echo "    SKIP: no token. Set REPORUNNER_TOKEN or run gh auth login to include this gate."
+  echo "    SKIP: no token. Set APROPOS_TOKEN or run gh auth login to include this gate."
   exit 0
 fi
 
@@ -18,15 +18,15 @@ rm -rf "$RESULTS"
 # a dead container, which xcodebuild reports as a missing test bundle.
 xcrun simctl uninstall "$UDID" "$BUNDLE_ID" >/dev/null 2>&1 || true
 
-step "Run RepoRunnerUITests on simulator $UDID"
+step "Run AproposUITests on simulator $UDID"
 set +e
-TEST_RUNNER_REPORUNNER_TOKEN="$TOKEN" xcodebuild test \
+TEST_RUNNER_APROPOS_TOKEN="$TOKEN" xcodebuild test \
   -project "$PROJECT" \
   -scheme "$SCHEME" \
   -destination "platform=iOS Simulator,id=$UDID" \
   -derivedDataPath "$DERIVED" \
   -resultBundlePath "$RESULTS" \
-  -only-testing:RepoRunnerUITests \
+  -only-testing:AproposUITests \
   CODE_SIGNING_ALLOWED=NO \
   2>&1 | tee "$DERIVED/ui-test.log" | grep -E "(Test Case '.*(passed|failed|skipped)|Executed .* tests|error:|TEST)"
 rc=${PIPESTATUS[0]}

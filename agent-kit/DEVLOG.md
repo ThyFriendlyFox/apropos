@@ -8,7 +8,7 @@ The Next.js surface in `src/` stays as a web demo. It is not the product.
 What shipped:
 
 - `ios/` holds a SwiftUI app, generated from `ios/project.yml` by
-  xcodegen. Bundle id `com.thyfriendlyfox.reporunner`, iOS 17 minimum.
+  xcodegen. Bundle id `com.thyfriendlyfox.apropos`, iOS 17 minimum.
 - GitHub OAuth device flow. It needs a client ID and no client secret,
   which is the only OAuth shape safe inside an app binary.
 - The token goes to the Keychain. A test asserts it never reaches a URL.

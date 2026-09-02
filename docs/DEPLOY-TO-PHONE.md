@@ -1,6 +1,6 @@
-# Put Repo Runner on your iPhone
+# Put Apropos on your iPhone
 
-Repo Runner is a normal iOS app. You build it in Xcode and run it on your
+Apropos is a normal iOS app. You build it in Xcode and run it on your
 own device with your own Apple ID. Nothing here needs a paid developer
 account, though a free account limits the app to 7 days before it must be
 rebuilt.
@@ -10,20 +10,20 @@ rebuilt.
 ```sh
 brew install xcodegen        # once
 cd ios && xcodegen generate
-open RepoRunner.xcodeproj
+open Apropos.xcodeproj
 ```
 
-`ios/RepoRunner.xcodeproj` is generated and gitignored. `ios/project.yml`
+`ios/Apropos.xcodeproj` is generated and gitignored. `ios/project.yml`
 is the source of truth. Re-run `xcodegen generate` after adding a file.
 
 ## 2. Set your team
 
-In Xcode, select the **RepoRunner** target → **Signing & Capabilities**:
+In Xcode, select the **Apropos** target → **Signing & Capabilities**:
 
 1. Tick **Automatically manage signing**.
 2. Pick your team under **Team**. A personal Apple ID appears here once you
    add it in **Xcode → Settings → Accounts**.
-3. Change **Bundle Identifier** if `com.thyfriendlyfox.reporunner` is taken
+3. Change **Bundle Identifier** if `com.thyfriendlyfox.apropos` is taken
    by someone else's profile. Any reverse-DNS string works.
 
 ## 3. Run on the device
@@ -38,7 +38,7 @@ In Xcode, select the **RepoRunner** target → **Signing & Capabilities**:
 
 ## 4. Sign in
 
-Repo Runner signs in with GitHub's device flow, which needs an OAuth client
+Apropos signs in with GitHub's device flow, which needs an OAuth client
 ID and no client secret.
 
 1. Open <https://github.com/settings/applications/new>.
@@ -48,7 +48,7 @@ ID and no client secret.
 3. Register the app, then on its settings page tick **Enable Device Flow**
    and save. Without this GitHub answers `device_flow_disabled`.
 4. Copy the **Client ID**.
-5. Either paste it into Repo Runner under **Settings → OAuth client ID**, or
+5. Either paste it into Apropos under **Settings → OAuth client ID**, or
    put it in `ios/Secrets.xcconfig` before building:
 
    ```
@@ -59,7 +59,7 @@ ID and no client secret.
 
 A simulator build is signed ad hoc and carries no keychain entitlement, so
 the Keychain refuses every write with `errSecMissingEntitlement`
-(`-34018`). Repo Runner keeps the token in memory for that run and says so
+(`-34018`). Apropos keeps the token in memory for that run and says so
 in an orange banner. A build signed with your team, which is every build
 that reaches a phone, gets the entitlement from its provisioning profile
 and persists the token normally.
@@ -70,7 +70,7 @@ finer grain. The token is stored in the phone's Keychain.
 
 ## 5. What installs and what does not
 
-Repo Runner hands iOS an `itms-services://` URL. That is the only way an
+Apropos hands iOS an `itms-services://` URL. That is the only way an
 app can install another app. It works when all of these hold:
 
 | Requirement | Why |
@@ -80,14 +80,14 @@ app can install another app. It works when all of these hold:
 | The build is signed ad-hoc, for development, or enterprise | An App Store signature installs only through the App Store or TestFlight. |
 | Your device is in the provisioning profile | Ad-hoc and development profiles list device UDIDs. |
 
-Repo Runner checks the first three before it does anything and names the
+Apropos checks the first three before it does anything and names the
 one that failed. The fourth is only visible to iOS, which reports it as
 "Unable to Install".
 
 ### The manifest
 
 iOS reads the build's details from a `manifest.plist` at an https URL.
-Repo Runner finds one in this order:
+Apropos finds one in this order:
 
 1. A `.plist` already attached to the release.
 2. A **manifest host** set in Settings.
@@ -117,4 +117,4 @@ gh release create v1.0.0 build/YourApp.ipa
 ```
 
 `AdHoc.plist` sets `method` to `ad-hoc` (or `development`) and lists your
-team ID. Repo Runner picks the `.ipa` up on the next pull to refresh.
+team ID. Apropos picks the `.ipa` up on the next pull to refresh.

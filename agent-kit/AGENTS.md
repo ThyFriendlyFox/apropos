@@ -40,10 +40,10 @@ Requires Xcode 26.2 with an iOS 18.6 or newer simulator runtime.
 
 | Area | Why it bites |
 |---|---|
-| `ios/RepoRunner/Install/InstallService.swift` | `itms-services` needs an **https** manifest URL that iOS fetches unauthenticated. A private-repo asset URL always fails there. |
-| `ios/RepoRunner/Core/DeviceFlowAuth.swift` | GitHub returns HTTP 200 with an `error` body during polling. Status code alone is not the signal. |
-| `ios/RepoRunner/Core/ReleaseScanner.swift` | `.ipa` installs on device only; `.app.zip` runs on simulator only. Mixing them up produces an install that silently never appears. |
-| `ios/project.yml` | Adding a source file needs no edit here (folders are globbed), but adding a *folder* outside `RepoRunner/` does. |
+| `ios/Apropos/Install/InstallService.swift` | `itms-services` needs an **https** manifest URL that iOS fetches unauthenticated. A private-repo asset URL always fails there. |
+| `ios/Apropos/Core/DeviceFlowAuth.swift` | GitHub returns HTTP 200 with an `error` body during polling. Status code alone is not the signal. |
+| `ios/Apropos/Core/ReleaseScanner.swift` | `.ipa` installs on device only; `.app.zip` runs on simulator only. Mixing them up produces an install that silently never appears. |
+| `ios/project.yml` | Adding a source file needs no edit here (folders are globbed), but adding a *folder* outside `Apropos/` does. |
 | `verify/simulator-smoke.sh` | `simctl` returns success for a launch that crashes 200 ms later. The script must re-check the pid. |
 
 ## House style

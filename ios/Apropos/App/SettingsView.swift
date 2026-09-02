@@ -30,7 +30,7 @@ struct SettingsView: View {
                 } header: {
                     Text("Manifest host")
                 } footer: {
-                    Text("iOS installs from a plist at an https URL. Repo Runner attaches one to the release when you can write to the repository. For repositories you cannot write to, deploy src/app/api/manifest from this project and paste its URL here.")
+                    Text("iOS installs from a plist at an https URL. Apropos attaches one to the release when you can write to the repository. For repositories you cannot write to, deploy src/app/api/manifest from this project and paste its URL here.")
                 }
 
                 Section {

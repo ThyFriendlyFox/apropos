@@ -57,7 +57,7 @@ struct InstallSheet: View {
                 ProgressView().controlSize(.large)
                 Text("Reading the build")
                     .foregroundStyle(Theme.secondaryText)
-                Text("Repo Runner reads a few kilobytes of the .ipa to find its bundle identifier and signature.")
+                Text("Apropos reads a few kilobytes of the .ipa to find its bundle identifier and signature.")
                     .font(.footnote)
                     .foregroundStyle(Theme.secondaryText)
                     .multilineTextAlignment(.center)
@@ -108,7 +108,7 @@ struct InstallSheet: View {
         case .handedToSystem:
             Notice(
                 title: "iOS is installing it",
-                detail: "Leave Repo Runner and watch the Home Screen. If a dialog asks to install, confirm it there.",
+                detail: "Leave Apropos and watch the Home Screen. If a dialog asks to install, confirm it there.",
                 tone: .good
             )
 
@@ -176,7 +176,7 @@ private struct ManifestNote: View {
         case .hosted:
             return "The manifest host in Settings builds the plist iOS reads."
         case .uploadToRelease:
-            return "Repo Runner attaches manifest.plist to this release once. It stays there, so later installs skip this step. Delete it from the release to undo."
+            return "Apropos attaches manifest.plist to this release once. It stays there, so later installs skip this step. Delete it from the release to undo."
         }
     }
 }

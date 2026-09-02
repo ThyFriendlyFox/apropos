@@ -14,7 +14,7 @@ protocol TokenStoring: Sendable {
 }
 
 struct KeychainTokenStore: TokenStoring {
-    private let service = "com.thyfriendlyfox.reporunner"
+    private let service = "com.thyfriendlyfox.apropos"
     private let account = "github-access-token"
 
     static let shared = KeychainTokenStore()

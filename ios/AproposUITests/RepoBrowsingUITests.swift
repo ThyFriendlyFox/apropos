@@ -9,10 +9,10 @@ final class RepoBrowsingUITests: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = false
-        let token = ProcessInfo.processInfo.environment["REPORUNNER_TOKEN"] ?? ""
-        try XCTSkipIf(token.isEmpty, "no REPORUNNER_TOKEN; the signed-in UI gate needs one")
+        let token = ProcessInfo.processInfo.environment["APROPOS_TOKEN"] ?? ""
+        try XCTSkipIf(token.isEmpty, "no APROPOS_TOKEN; the signed-in UI gate needs one")
         app = XCUIApplication()
-        app.launchEnvironment["REPORUNNER_TOKEN"] = token
+        app.launchEnvironment["APROPOS_TOKEN"] = token
         app.launch()
     }
 
@@ -78,10 +78,10 @@ final class InstallSheetUITests: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = false
-        let token = ProcessInfo.processInfo.environment["REPORUNNER_TOKEN"] ?? ""
-        try XCTSkipIf(token.isEmpty, "no REPORUNNER_TOKEN; the signed-in UI gate needs one")
+        let token = ProcessInfo.processInfo.environment["APROPOS_TOKEN"] ?? ""
+        try XCTSkipIf(token.isEmpty, "no APROPOS_TOKEN; the signed-in UI gate needs one")
         app = XCUIApplication()
-        app.launchEnvironment["REPORUNNER_TOKEN"] = token
+        app.launchEnvironment["APROPOS_TOKEN"] = token
         app.launch()
     }
 

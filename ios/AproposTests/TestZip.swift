@@ -1,6 +1,6 @@
 import Foundation
 import Compression
-@testable import RepoRunner
+@testable import Apropos
 
 /// Builds a ZIP in memory so the inspector can be tested without a network
 /// or a checked-in binary fixture.

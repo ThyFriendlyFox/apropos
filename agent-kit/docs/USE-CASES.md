@@ -5,7 +5,7 @@ no case is not built.
 
 ## UC-1 — First run on a new phone
 
-A developer installs Repo Runner on their iPhone. They open it and see
+A developer installs Apropos on their iPhone. They open it and see
 one button: Sign in with GitHub. They tap it, approve the device code in
 Safari, and land on their repo list. They never type a password into the
 app.

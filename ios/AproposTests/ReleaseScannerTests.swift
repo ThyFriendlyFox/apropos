@@ -1,5 +1,5 @@
 import XCTest
-@testable import RepoRunner
+@testable import Apropos
 
 final class ReleaseScannerTests: XCTestCase {
     private func asset(_ name: String, size: Int = 1024) -> ReleaseAsset {

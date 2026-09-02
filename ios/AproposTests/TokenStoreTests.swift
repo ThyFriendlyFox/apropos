@@ -1,5 +1,5 @@
 import XCTest
-@testable import RepoRunner
+@testable import Apropos
 
 /// Runs inside the host app, so it uses the app's entitlements.
 ///

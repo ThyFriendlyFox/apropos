@@ -1,5 +1,5 @@
 import XCTest
-@testable import RepoRunner
+@testable import Apropos
 
 final class InstallPlannerTests: XCTestCase {
     private func repo(private isPrivate: Bool = false, canWrite: Bool = false) -> Repo {

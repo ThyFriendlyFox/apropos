@@ -12,7 +12,7 @@ stack, build/test/lint commands, default branch, license, how it runs.
 
 | Placeholder | Meaning |
 |---|---|
-| `Repo Runner` | Human name of the project |
+| `Apropos` | Human name of the project |
 | `ThyFriendlyFox/apropos` | owner/repo |
 | `main` | usually `main` |
 | `verify/build.sh` / `verify/test.sh` / `verify/lint.sh` | canonical commands (create them if missing) |

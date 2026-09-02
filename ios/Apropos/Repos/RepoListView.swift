@@ -45,7 +45,7 @@ struct RepoListView: View {
             ContentUnavailableView {
                 Label("No repositories", systemImage: "tray")
             } description: {
-                Text("This account has no repositories Repo Runner can see. Sign in as a different account, or check the app's authorisation on GitHub.")
+                Text("This account has no repositories Apropos can see. Sign in as a different account, or check the app's authorisation on GitHub.")
             }
         } else {
             ContentUnavailableView.search(text: model.query)

@@ -1,5 +1,5 @@
 import XCTest
-@testable import RepoRunner
+@testable import Apropos
 
 final class InstallManifestTests: XCTestCase {
     private let metadata = IPAMetadata(

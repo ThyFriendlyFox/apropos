@@ -3,9 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 /**
  * Serves the install manifest iOS fetches for an `itms-services://` install.
  *
- * Repo Runner attaches a manifest.plist to the release itself when the signed-in
+ * Apropos attaches a manifest.plist to the release itself when the signed-in
  * account can write to the repository. This endpoint covers the case where it
- * cannot: deploy this app, then paste the endpoint URL into Repo Runner's
+ * cannot: deploy this app, then paste the endpoint URL into Apropos's
  * Settings under "Manifest host".
  *
  * Only GitHub release assets are served, so the endpoint cannot be pointed at an

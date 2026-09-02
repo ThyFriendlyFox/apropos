@@ -1,4 +1,4 @@
-name: RepoRunner
+name: Apropos
 options:
   bundleIdPrefix: com.thyfriendlyfox
   deploymentTarget:
@@ -21,61 +21,61 @@ settings:
     SWIFT_STRICT_CONCURRENCY: complete
 
 targets:
-  RepoRunner:
+  Apropos:
     type: application
     platform: iOS
     sources:
-      - path: RepoRunner
+      - path: Apropos
     configFiles:
       Debug: Secrets.xcconfig
       Release: Secrets.xcconfig
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.thyfriendlyfox.reporunner
-        PRODUCT_NAME: RepoRunner
-        INFOPLIST_FILE: RepoRunner/Resources/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.thyfriendlyfox.apropos
+        PRODUCT_NAME: Apropos
+        INFOPLIST_FILE: Apropos/Resources/Info.plist
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         TARGETED_DEVICE_FAMILY: "1"
         # Simulator only. Device builds sign with the profile Xcode makes.
         SUPPORTS_MACCATALYST: NO
         GENERATE_INFOPLIST_FILE: NO
 
-  RepoRunnerTests:
+  AproposTests:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - path: RepoRunnerTests
+      - path: AproposTests
     dependencies:
-      - target: RepoRunner
+      - target: Apropos
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.thyfriendlyfox.reporunner.tests
+        PRODUCT_BUNDLE_IDENTIFIER: com.thyfriendlyfox.apropos.tests
         GENERATE_INFOPLIST_FILE: YES
 
-  RepoRunnerUITests:
+  AproposUITests:
     type: bundle.ui-testing
     platform: iOS
     sources:
-      - path: RepoRunnerUITests
+      - path: AproposUITests
     dependencies:
-      - target: RepoRunner
+      - target: Apropos
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.thyfriendlyfox.reporunner.uitests
+        PRODUCT_BUNDLE_IDENTIFIER: com.thyfriendlyfox.apropos.uitests
         GENERATE_INFOPLIST_FILE: YES
-        TEST_TARGET_NAME: RepoRunner
+        TEST_TARGET_NAME: Apropos
 
 schemes:
-  RepoRunner:
+  Apropos:
     build:
       targets:
-        RepoRunner: all
-        RepoRunnerTests: [test]
-        RepoRunnerUITests: [test]
+        Apropos: all
+        AproposTests: [test]
+        AproposUITests: [test]
     run:
       config: Debug
     test:
       config: Debug
       targets:
-        - RepoRunnerTests
-        - RepoRunnerUITests
+        - AproposTests
+        - AproposUITests

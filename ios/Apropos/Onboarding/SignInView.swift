@@ -11,7 +11,7 @@ struct SignInView: View {
             AppMark()
                 .frame(width: 108, height: 108)
 
-            Text("Repo Runner")
+            Text("Apropos")
                 .font(.system(size: 34, weight: .bold, design: .rounded))
                 .padding(.top, 24)
 
@@ -39,7 +39,7 @@ struct SignInView: View {
                 .buttonStyle(.borderedProminent)
                 .accessibilityIdentifier("sign-in-with-github")
 
-                Text("Repo Runner asks for the `repo` scope so it can list your private repositories and their releases. The token stays in this phone's Keychain.")
+                Text("Apropos asks for the `repo` scope so it can list your private repositories and their releases. The token stays in this phone's Keychain.")
                     .font(.footnote)
                     .foregroundStyle(Theme.secondaryText)
                     .multilineTextAlignment(.center)
@@ -99,7 +99,7 @@ struct ClientIDView: View {
                 } header: {
                     Text("OAuth client ID")
                 } footer: {
-                    Text("Repo Runner signs in with GitHub's device flow, which needs a client ID and no secret. Create an OAuth app on GitHub, enable device flow on it, and paste its client ID here. A value set in ios/Secrets.xcconfig at build time appears here already.")
+                    Text("Apropos signs in with GitHub's device flow, which needs a client ID and no secret. Create an OAuth app on GitHub, enable device flow on it, and paste its client ID here. A value set in ios/Secrets.xcconfig at build time appears here already.")
                 }
 
                 Section {

@@ -8,14 +8,14 @@ UDID="${SIM_UDID:-$(pick_simulator)}"
 # a dead container, which xcodebuild reports as a missing test bundle.
 xcrun simctl uninstall "$UDID" "$BUNDLE_ID" >/dev/null 2>&1 || true
 
-step "Run RepoRunnerTests on simulator $UDID"
+step "Run AproposTests on simulator $UDID"
 set +e
 xcodebuild test \
   -project "$PROJECT" \
   -scheme "$SCHEME" \
   -destination "platform=iOS Simulator,id=$UDID" \
   -derivedDataPath "$DERIVED" \
-  -only-testing:RepoRunnerTests \
+  -only-testing:AproposTests \
   CODE_SIGNING_ALLOWED=NO \
   2>&1 | tee "$DERIVED/test.log" | grep -E "(Test Case '.*(passed|failed)|Executed .* tests|error:|TEST)" 
 rc=${PIPESTATUS[0]}

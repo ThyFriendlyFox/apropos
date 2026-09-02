@@ -1,5 +1,5 @@
 import XCTest
-@testable import RepoRunner
+@testable import Apropos
 
 final class GitHubAPITests: XCTestCase {
     private func api(_ replies: [StubTransport.Reply], token: String? = "t") -> (GitHubAPI, StubTransport) {

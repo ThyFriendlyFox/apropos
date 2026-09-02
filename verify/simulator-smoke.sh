@@ -34,12 +34,12 @@ ok "docs/screenshots/onboarding.png"
 # launch environment; the app reads it only in a Debug build. With no token
 # available this half is skipped out loud, never passed silently.
 step "Render the signed-in screens with a real token"
-TOKEN="${REPORUNNER_TOKEN:-$(gh auth token 2>/dev/null || true)}"
+TOKEN="${APROPOS_TOKEN:-$(gh auth token 2>/dev/null || true)}"
 if [ -z "$TOKEN" ]; then
-  echo "    SKIP: no token. Set REPORUNNER_TOKEN or run gh auth login to include this gate."
+  echo "    SKIP: no token. Set APROPOS_TOKEN or run gh auth login to include this gate."
   exit 0
 fi
-SIMCTL_CHILD_REPORUNNER_TOKEN="$TOKEN" \
+SIMCTL_CHILD_APROPOS_TOKEN="$TOKEN" \
   xcrun simctl launch --terminate-running-process "$UDID" "$BUNDLE_ID" >/dev/null
 /bin/sleep 6
 assert_running "$UDID" "$BUNDLE_ID" || die "$BUNDLE_ID crashed while loading the repo list"
