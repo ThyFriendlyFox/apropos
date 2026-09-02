@@ -2,7 +2,7 @@ import XCTest
 @testable import Apropos
 
 final class ReleaseScannerTests: XCTestCase {
-    private func asset(_ name: String, size: Int = 1024) -> ReleaseAsset {
+    func asset(_ name: String, size: Int = 1024) -> ReleaseAsset {
         ReleaseAsset(
             id: abs(name.hashValue),
             name: name,
@@ -75,7 +75,7 @@ final class ReleaseScannerTests: XCTestCase {
         XCTAssertEqual(scanned[0].deviceBuild?.asset.name, "b.ipa")
     }
 
-    private static func release(assets: [ReleaseAsset], draft: Bool = false) -> Release {
+    static func release(assets: [ReleaseAsset], draft: Bool = false) -> Release {
         Release(
             id: draft ? 2 : 1,
             tagName: "v1.0.0",
@@ -87,5 +87,43 @@ final class ReleaseScannerTests: XCTestCase {
             htmlURL: URL(string: "https://github.com/me/app/releases/tag/v1.0.0")!,
             assets: assets
         )
+    }
+}
+
+extension ReleaseScannerTests {
+    func testAWebBundleIsRunnableInApropos() {
+        XCTAssertEqual(ReleaseScanner.classify(asset("apropos-web-v0.2.0.zip")), .webApp)
+        XCTAssertEqual(ReleaseScanner.classify(asset("dist.zip")), .webApp)
+        XCTAssertEqual(ReleaseScanner.classify(asset("game.html")), .webApp)
+    }
+
+    /// Symbols, sources, and Android builds are archives too, and none of
+    /// them is something to run.
+    func testNoiseArchivesAreNotWebApps() {
+        XCTAssertNil(ReleaseScanner.classify(asset("MyApp.dSYM.zip")))
+        XCTAssertNil(ReleaseScanner.classify(asset("symbols.zip")))
+        XCTAssertNil(ReleaseScanner.classify(asset("source-code.zip")))
+        XCTAssertNil(ReleaseScanner.classify(asset("app-src.zip")))
+    }
+
+    /// A simulator archive is for a Mac, not for running here.
+    func testASimulatorArchiveIsNotAWebApp() {
+        XCTAssertEqual(ReleaseScanner.classify(asset("mouse-ios-sim-v1.4.zip")), .simulatorApp)
+        XCTAssertEqual(ReleaseScanner.classify(asset("Apropos.app.zip")), .simulatorApp)
+    }
+
+    /// Only zip is unpacked, so a tarball must not claim to be runnable.
+    func testATarballIsNotClaimedAsRunnable() {
+        XCTAssertNil(ReleaseScanner.classify(asset("site.tar.gz")))
+    }
+
+    func testRunnableBeatsInstallableOnTheSameRelease() {
+        let scanned = ReleaseScanner.scan(Self.release(assets: [
+            asset("MyApp.ipa"),
+            asset("web.zip"),
+        ]))
+        XCTAssertTrue(scanned.isRunnableInApropos)
+        XCTAssertTrue(scanned.isInstallable)
+        XCTAssertEqual(scanned.webBundle?.asset.name, "web.zip")
     }
 }

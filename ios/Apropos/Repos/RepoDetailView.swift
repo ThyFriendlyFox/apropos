@@ -113,7 +113,7 @@ struct ReleaseCard: View {
             .foregroundStyle(Theme.secondaryText)
 
             if scanned.artifacts.isEmpty {
-                Text("No iOS artifact on this release.")
+                Text("Nothing on this release can run. Attach a built web app as a .zip and Apropos runs it here; attach an .ipa to install it on the Home Screen.")
                     .font(.footnote)
                     .foregroundStyle(Theme.secondaryText)
             } else {

@@ -18,44 +18,31 @@ because iOS gates it behind a Mac.
 
 ## Feature Queue — ordered; top unblocked item ships next
 
-### 1. Run a release's web app inside Apropos
-- **Promise:** Tapping Run on a release that carries a web bundle opens
-  that app full screen inside Apropos on a phone or simulator, playable,
-  with no desktop step and nothing installed.
-- **Evidence:** A UI test drives Run on a real GitHub release and asserts
-  the app's own content is on screen inside Apropos; a screenshot shows it.
-- **Use case:** UC-7.
-- **Scope guard:** No native `.ipa` execution — iOS cannot run one inside
-  another app. No code execution outside the web view.
+### 1. Clear the frozen web demo's lint debt
+- **Promise:** `npx eslint src` reports 0 errors and 0 warnings, and
+  `verify/lint.sh` gates all of `src/`.
+- **Evidence:** `verify/lint.sh` green with the wider scope.
+- **Use case:** UC-6.
+- **Scope guard:** Lint only.
 - **Status:** ready
 
-### 2. Detect what a release can run
-- **Promise:** A repo row says how its latest release can be run — inside
-  Apropos, installed to the Home Screen, or not at all — and the detail
-  screen names the asset behind that answer.
-- **Evidence:** `ReleaseScannerTests` covers every payload shape; a
-  screenshot of the list with mixed verdicts.
-- **Use case:** UC-3, UC-7.
-- **Scope guard:** Classification only.
+### 2. Publish a runnable bundle from any repo, from the phone
+- **Promise:** A repo with a web app gets a runnable release without the
+  owner opening a terminal: a reusable GitHub Actions workflow builds the
+  bundle and attaches it on every tag.
+- **Evidence:** The workflow runs green on this repo and the resulting
+  release shows "Runs here" in the list.
+- **Use case:** UC-7 — the goal is no desktop, and `verify/build-web.sh`
+  is still a desktop step.
+- **Scope guard:** Static web builds only.
 - **Status:** ready
 
-### 3. Apropos ships its own web build
-- **Promise:** The `apropos` repo's latest release carries a web bundle,
-  and Apropos runs itself from its own repo list.
-- **Evidence:** A screenshot of Apropos running Apropos.
-- **Use case:** UC-7.
-- **Scope guard:** The web build is the existing `src/` surface. No second
-  implementation of the phone app.
-- **Status:** ready
-
-### 4. Keep a run where you left it
-- **Promise:** Reopening a repo that was run before resumes it without
-  downloading the bundle again, and a pull to refresh replaces it when the
-  release changed.
-- **Evidence:** A unit test over the cache keyed by release id; a UI test
-  that a second run makes no network call for the bundle.
-- **Use case:** UC-7.
-- **Scope guard:** No offline mode for apps that need the network.
+### 3. Say why a repo cannot run
+- **Promise:** A repo whose latest release has nothing runnable shows the
+  reason on the detail screen, naming what to attach.
+- **Evidence:** A screenshot against a repo with a release and no bundle.
+- **Use case:** UC-5.
+- **Scope guard:** Copy and detection only.
 - **Status:** ready
 
 ## Later — candidates, not yet specced
@@ -69,6 +56,10 @@ because iOS gates it behind a Mac.
 
 | Week | Feature | Release | Evidence |
 |---|---|---|---|
+| 2026-09-02 | Keep a run where you left it | v0.2.0 | `WebAppStoreTests.testASecondRunUsesTheCachedCopy`: the bundle is downloaded once per release id |
+| 2026-09-02 | Apropos ships its own web build | v0.2.0 | `verify/build-web.sh`; the v0.2.0 release carries `apropos-web-v0.2.0.zip`; `docs/screenshots/running-inside.png` is Apropos running Apropos |
+| 2026-09-02 | Detect what a release can run | v0.2.0 | `ReleaseScannerTests`, 13 cases; the row badge reads "Runs here" or "iOS build" |
+| 2026-09-02 | Run a release's web app inside Apropos | v0.2.0 | `RunInsideUITests` drives Run on the real release and asserts the app's own content renders inside Apropos |
 | 2026-09-01 | Ship-to-phone polish | v0.1.0 | `docs/DEPLOY-TO-PHONE.md`; app icon, launch screen, search, pull to refresh, empty and error states with retry, sign out; `verify/verify.sh` green |
 | 2026-09-01 | One-tap install of a release build | v0.1.0 | `InstallPlannerTests` 10 cases, `InstallManifestTests` 5, `IPAInspectorTests` 11; `InstallSheetUITests` against the live `mouse` .ipa; `docs/screenshots/install-sheet.png` |
 | 2026-09-01 | Release scanning and iOS artifact detection | v0.1.0 | `ReleaseScannerTests`, 8 cases; `RepoBrowsingUITests` against `reagent-systems/mouse`; `docs/screenshots/repo-detail.png` |
@@ -99,3 +90,6 @@ because iOS gates it behind a Mac.
   list of installed apps, so the design question comes before the code.
 - 2026-09-01 — Closed item 1's evidence gap. A real device-flow sign-in
   ran on the simulator with the owner's OAuth client ID.
+- 2026-09-02 — Refilled after the run-inside cycle. Publishing a bundle
+  still needs a terminal, so that is now the top item: it is the last
+  desktop step between a new repo and playing with it on the phone.

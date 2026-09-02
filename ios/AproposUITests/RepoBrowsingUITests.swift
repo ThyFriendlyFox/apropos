@@ -124,3 +124,54 @@ final class InstallSheetUITests: XCTestCase {
         add(shot)
     }
 }
+
+/// The core promise: a repo's release runs inside Apropos, on the phone,
+/// with nothing installed and no desktop involved. Driven against the real
+/// `apropos` release, which carries the web bundle.
+final class RunInsideUITests: XCTestCase {
+    private var app: XCUIApplication!
+
+    override func setUpWithError() throws {
+        continueAfterFailure = false
+        let token = ProcessInfo.processInfo.environment["APROPOS_TOKEN"] ?? ""
+        try XCTSkipIf(token.isEmpty, "no APROPOS_TOKEN; the signed-in UI gate needs one")
+        app = XCUIApplication()
+        app.launchEnvironment["APROPOS_TOKEN"] = token
+        app.launch()
+    }
+
+    func testARepoReleaseRunsInsideApropos() {
+        XCTAssertTrue(app.navigationBars["Repositories"].waitForExistence(timeout: 20))
+
+        let field = app.searchFields.firstMatch
+        XCTAssertTrue(field.waitForExistence(timeout: 20))
+        field.tap()
+        field.typeText("apropos")
+
+        let row = app.descendants(matching: .any)["repo-apropos"]
+        XCTAssertTrue(row.waitForExistence(timeout: 20), "the apropos repository never appeared")
+        row.tap()
+
+        // Matched by prefix so a new tag does not break the gate.
+        let run = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'run-'")).firstMatch
+        XCTAssertTrue(run.waitForExistence(timeout: 20), "no release offered a Run button")
+        run.tap()
+
+        // Content from the downloaded bundle, rendered by the web view
+        // inside Apropos.
+        let heading = app.staticTexts["iOS Repo Runner"]
+        XCTAssertTrue(
+            heading.waitForExistence(timeout: 60),
+            "the release's web app did not render inside Apropos"
+        )
+        XCTAssertTrue(app.descendants(matching: .any)["web-app"].exists)
+
+        let shot = XCTAttachment(screenshot: app.screenshot())
+        shot.name = "running-inside"
+        shot.lifetime = .keepAlways
+        add(shot)
+
+        // Still Apropos: the runner is a sheet with its own chrome.
+        XCTAssertTrue(app.buttons["Done"].exists, "the run must stay inside Apropos, not leave it")
+    }
+}
