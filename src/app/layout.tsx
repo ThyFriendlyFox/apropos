@@ -13,12 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "iOS Repo Runner - Run Any iOS Repo On Your Phone",
+  title: "Apropos — run any iOS repo on your phone",
   description: "Select from a dropdown of your repositories with iOS builds and test them instantly on your phone or in the browser simulator.",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "iOS Repo Runner"
+    title: "Apropos"
   }
 };
 

@@ -39,3 +39,18 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# ralph loop runtime state
+.claude/ralph-loop.local.md
+.claude/*.local.md
+
+# xcode
+ios/*.xcodeproj
+ios/DerivedData/
+ios/build/
+*.xcuserstate
+xcuserdata/
+ios/Secrets.xcconfig
+
+# demo recordings are large binaries; regenerate with simctl io recordVideo
+docs/recordings/

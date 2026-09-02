@@ -1,6 +1,6 @@
 {
-  "name": "iOS Repo Runner",
-  "short_name": "RepoRunner",
+  "name": "Apropos",
+  "short_name": "Apropos",
   "description": "Select from a dropdown of your repositories with an iOS build and run them directly on your phone.",
   "start_url": "/",
   "display": "standalone",

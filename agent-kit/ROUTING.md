@@ -41,6 +41,6 @@ already defines.
 ## Standing rules (apply in every instance)
 
 - Docs move with behavior: STATUS.md, CHANGELOG.md, ROADMAP.md updates land in the same commit/PR as the change they describe.
-- Commit at boundaries with evidence in the message. Never commit directly to `{{DEFAULT_BRANCH}}`.
+- Commit at boundaries with evidence in the message. Never commit directly to `main`.
 - Report outcomes faithfully: failing is reported as failing, with output.
 - Scope is what the current roadmap item names — no side quests. Defects found on the way get fixed if they block the item, otherwise queued in ROADMAP.md.

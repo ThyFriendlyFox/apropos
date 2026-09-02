@@ -1,29 +1,39 @@
 # Configuration
 
-<!-- Every knob, in one table, with defaults. If configuration lives in
-     more than one place, this file lists all of them and which wins. -->
+Every knob, in one table, with defaults. Apropos has two sources of
+configuration: values baked in at build time, and values the user sets in
+the app. The in-app value wins.
 
-{{PROJECT_NAME}} reads <the config file/mechanism>. <How the user opens or edits it.>
+## Build time — `ios/Secrets.xcconfig`
 
-| Platform | Path |
-|---|---|
-| macOS | `…` |
-| Windows | `…` |
-| Linux | `…` |
-
-<Behavior rules: what happens at first start, with an incomplete file,
-with a damaged file. A damaged config must never cause a crash —
-defaults plus a log line.>
-
-## Fields
+Gitignored. `verify/lib.sh` creates it from `ios/Secrets.example.xcconfig`
+when it is missing, so a fresh clone builds.
 
 | Field | Type | Default | Use |
 |---|---|---|---|
-| `…` | … | `…` | <one line> |
+| `GITHUB_CLIENT_ID` | string | empty | The OAuth app's client ID, copied into `Info.plist` as `GitHubClientID`. GitHub's device flow needs no client secret, so this is not a credential. |
 
-<!-- Rules for this table:
-     · Every shipped option appears here — an undocumented option is a
-       defect (gate it in VERIFICATION.md if the stack allows).
-     · New options land in this table in the same PR that adds them.
-     · Defaults shown here are the real defaults in code, not intended
-       ones. -->
+## In-app — Settings
+
+Stored in `UserDefaults`, except the token.
+
+| Field | Type | Default | Use |
+|---|---|---|---|
+| `github.client.id.override` | string | unset | Overrides `GITHUB_CLIENT_ID`. Lets a user sign in without rebuilding. |
+| `manifest.host` | https URL | unset | An endpoint that turns query values into an install manifest. Only used when the release has no manifest and the account cannot write to the repository. Anything other than `https` is ignored, because iOS refuses it. |
+
+## Not configuration
+
+| Value | Where | Why it is fixed |
+|---|---|---|
+| OAuth scope | `AppConfig.scope` | `repo read:user` is the narrowest scope that still lists private repositories and their releases. OAuth apps have no finer grain. |
+| GitHub access token | Keychain, via `TokenStore` | A credential, not a setting. Sign out clears it. |
+| `APROPOS_TOKEN` | Launch environment, Debug builds only | A test seam for `verify/`. Release builds do not read it. |
+
+## Behavior rules
+
+- No configuration is required to launch. With no client ID the sign-in
+  button opens the client-ID sheet instead of failing.
+- A damaged or unreadable value falls back to the default. It never
+  crashes the app.
+- Signing out clears the token and leaves both settings in place.
