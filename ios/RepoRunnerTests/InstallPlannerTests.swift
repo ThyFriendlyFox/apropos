@@ -137,6 +137,24 @@ final class InstallPlannerTests: XCTestCase {
         XCTAssertEqual(found.bundleID, "com.example.zen")
     }
 
+    /// A release can carry both. Refusing the phone install must not hide
+    /// the simulator archive that is sitting right next to it.
+    func testASimulatorArchiveIsStillOfferedWhenTheIPAIsRefused() {
+        let appStore = IPAMetadata(
+            bundleID: "com.example.zen", displayName: "Zen",
+            shortVersion: "1", buildVersion: "1", signing: .appStore
+        )
+        let context = InstallContext(
+            repo: repo(),
+            scanned: scanned(["Zen.ipa", "Zen-Simulator.zip"]),
+            metadata: appStore,
+            manifestHost: nil,
+            canWriteToRepo: false
+        )
+        XCTAssertEqual(InstallPlanner.plan(context), .refused(.appStoreSigned))
+        XCTAssertEqual(context.scanned.simulatorBuild?.asset.name, "Zen-Simulator.zip")
+    }
+
     func testNoManifestAndNoWriteAccessIsRefused() {
         XCTAssertEqual(
             plan(assets: ["Zen.ipa"], metadata: metadata, canWrite: false),

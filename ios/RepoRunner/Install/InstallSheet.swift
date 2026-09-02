@@ -95,8 +95,11 @@ struct InstallSheet: View {
         case .plan(.refused(let refusal)):
             Notice(title: refusal.title, detail: refusal.detail, tone: .warning)
                 .accessibilityIdentifier("install-refusal")
-            if case .simulatorBuildOnly(let command) = refusal {
-                CommandBlock(command: command)
+            // A phone install being refused does not make the release
+            // useless: a simulator archive on the same release still runs
+            // on a Mac.
+            if let simulator = scanned.simulatorBuild {
+                CommandBlock(command: InstallPlanner.simulatorCommand(for: simulator.asset))
             }
 
         case .plan(.needsInspection):
