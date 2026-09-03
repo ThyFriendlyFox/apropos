@@ -1,0 +1,23 @@
+{
+  "/Users/thyfriendlyfox/Projects/apropos/ios/Apropos/Install/ZipDirectory.swift" : {
+    "const-values" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/ZipDirectory.swiftconstvalues",
+    "dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/ZipDirectory.d",
+    "diagnostics" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/ZipDirectory.dia",
+    "object" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/ZipDirectory.o",
+    "swift-dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/ZipDirectory.swiftdeps"
+  },
+  "/Users/thyfriendlyfox/Projects/apropos/ios/Apropos/Run/WebAppView.swift" : {
+    "const-values" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/WebAppView.swiftconstvalues",
+    "dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/WebAppView.d",
+    "diagnostics" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/WebAppView.dia",
+    "object" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/WebAppView.o",
+    "swift-dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/WebAppView.swiftdeps"
+  },
+  "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "object" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps"
+  }
+}

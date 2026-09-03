@@ -13,6 +13,8 @@ final class InstallPlannerTests: XCTestCase {
             pushedAt: nil,
             stargazersCount: 0,
             language: nil,
+            homepage: nil,
+            hasPages: false,
             owner: RepoOwner(login: "me", avatarURL: nil),
             permissions: canWrite ? RepoPermissions(push: true) : RepoPermissions(push: false)
         )

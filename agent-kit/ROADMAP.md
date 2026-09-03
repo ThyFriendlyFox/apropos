@@ -26,12 +26,20 @@ because iOS gates it behind a Mac.
 - **Scope guard:** Lint only.
 - **Status:** ready
 
-### 2. Say why a repo cannot run
-- **Promise:** A repo whose latest release has nothing runnable shows the
-  reason on the detail screen, naming what to attach.
-- **Evidence:** A screenshot against a repo with a release and no bundle.
-- **Use case:** UC-5.
-- **Scope guard:** Copy and detection only.
+### 2. Remember what was run
+- **Promise:** The repo list has a section at the top holding the repos
+  run most recently, so getting back to one is a single tap.
+- **Evidence:** A UI test that a run appears there afterwards.
+- **Use case:** UC-7.
+- **Scope guard:** No sync between devices.
+- **Status:** ready
+
+### 3. Set a repo's site from inside Apropos
+- **Promise:** A repo with nothing runnable offers to set its website
+  field, so it becomes runnable without leaving the app.
+- **Evidence:** A UI test against a repo the account can write to.
+- **Use case:** UC-5, UC-7.
+- **Scope guard:** Only the homepage field. No other repository settings.
 - **Status:** ready
 
 ## Later — candidates, not yet specced
@@ -45,6 +53,9 @@ because iOS gates it behind a Mac.
 
 | Week | Feature | Release | Evidence |
 |---|---|---|---|
+| 2026-09-02 | Say what to do when a repo cannot run | v0.3.0 | The detail screen names the one action that fixes it |
+| 2026-09-02 | One obvious button on a repo | v0.3.0 | A single Run button at the top; Install shows only where an install is possible |
+| 2026-09-02 | Run any repo that already has a live site | v0.3.0 | `RunResolverTests`, 7 cases; `RunHostedSiteUITests` runs `openlawn`, which has no release at all; `docs/screenshots/running-hosted.png` |
 | 2026-09-02 | Publish a runnable bundle from a tag | v0.2.1 | `.github/workflows/build-web-bundle.yml`; v0.2.1's `apropos-web.zip` was built and attached by CI with no local build |
 | 2026-09-02 | Keep a run where you left it | v0.2.0 | `WebAppStoreTests.testASecondRunUsesTheCachedCopy`: the bundle is downloaded once per release id |
 | 2026-09-02 | Apropos ships its own web build | v0.2.0 | `verify/build-web.sh`; the v0.2.0 release carries `apropos-web-v0.2.0.zip`; `docs/screenshots/running-inside.png` is Apropos running Apropos |
