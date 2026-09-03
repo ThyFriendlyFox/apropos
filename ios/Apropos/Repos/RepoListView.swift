@@ -160,14 +160,18 @@ struct RepoRow: View {
     /// the answer that needs no desktop, so it wins when both are true.
     @ViewBuilder
     private var badge: some View {
-        if case .found(let scanned) = entry {
-            if scanned.isRunnableInApropos {
-                pill("Runs here", icon: "play.fill", tint: Theme.accent)
-                    .accessibilityIdentifier("runs-here-badge")
-            } else if scanned.isInstallable {
-                pill("iOS build", icon: "iphone", tint: .white.opacity(0.55))
-                    .accessibilityIdentifier("ios-build-badge")
-            }
+        // A deployed site is known from the repository alone, so this repo
+        // is marked runnable before any release lookup finishes.
+        let runsFromRelease: Bool = {
+            if case .found(let scanned) = entry { return scanned.isRunnableInApropos }
+            return false
+        }()
+        if runsFromRelease || repo.hostedSite != nil {
+            pill("Runs here", icon: "play.fill", tint: Theme.accent)
+                .accessibilityIdentifier("runs-here-badge")
+        } else if case .found(let scanned) = entry, scanned.isInstallable {
+            pill("iOS build", icon: "iphone", tint: .white.opacity(0.55))
+                .accessibilityIdentifier("ios-build-badge")
         }
     }
 

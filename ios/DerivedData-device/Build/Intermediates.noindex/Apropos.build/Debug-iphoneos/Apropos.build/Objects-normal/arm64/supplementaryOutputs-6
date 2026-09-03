@@ -1,0 +1,23 @@
+{
+  "/Users/thyfriendlyfox/Projects/apropos/ios/Apropos/Repos/RepoDetailView.swift" : {
+    "const-values" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/RepoDetailView.swiftconstvalues",
+    "dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/RepoDetailView.d",
+    "diagnostics" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/RepoDetailView.dia",
+    "object" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/RepoDetailView.o",
+    "swift-dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/RepoDetailView.swiftdeps"
+  },
+  "/Users/thyfriendlyfox/Projects/apropos/ios/Apropos/Repos/RepoListModel.swift" : {
+    "const-values" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/RepoListModel.swiftconstvalues",
+    "dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/RepoListModel.d",
+    "diagnostics" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/RepoListModel.dia",
+    "object" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/RepoListModel.o",
+    "swift-dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/RepoListModel.swiftdeps"
+  },
+  "/Users/thyfriendlyfox/Projects/apropos/ios/Apropos/Repos/RepoListView.swift" : {
+    "const-values" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/RepoListView.swiftconstvalues",
+    "dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/RepoListView.d",
+    "diagnostics" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/RepoListView.dia",
+    "object" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/RepoListView.o",
+    "swift-dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/RepoListView.swiftdeps"
+  }
+}

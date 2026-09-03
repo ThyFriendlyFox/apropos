@@ -11,6 +11,7 @@ behavior change. The weekly cycle (WEEKLY.md step 5) refreshes it.
 | Repo list | ✅ | `docs/screenshots/repo-list.png`, live GitHub |
 | Release scanning | ✅ | `ReleaseScannerTests` 8 cases; UI test against `reagent-systems/mouse` v1.4 |
 | Publish a bundle from a tag, no terminal | ✅ | `.github/workflows/build-web-bundle.yml`; v0.2.1 was built and attached by CI |
+| Run a repo with only a deployed site | ✅ | `RunHostedSiteUITests`; `docs/screenshots/running-hosted.png` |
 | Run a release inside Apropos | ✅ | `RunInsideUITests`; `docs/screenshots/running-inside.png` |
 | Web bundle detection | ✅ | `ReleaseScannerTests`, 13 cases |
 | Loopback server for bundles | ✅ | `LocalWebServerTests` serve real HTTP to URLSession |
@@ -25,9 +26,10 @@ States: ✅ done (gated) · 🚧 in progress · ❌ not started · 🧊 frozen/w
 ## Current week
 
 - **Shipping:** between cycles. The run-inside cycle shipped all four items.
-- **Last release:** v0.2.1 — 2026-09-02, built and attached by CI.
-- **Not verified:** the run-inside path is proven on the iOS simulator,
-  not on a physical iPhone. The runner has no simulator-specific branch,
+- **Last release:** v0.3.0 — 2026-09-02.
+- **Not verified:** the run path is proven on the iOS simulator and the
+  app itself is installed on a physical iPhone, but Run has not been
+  exercised there by me. The runner has no simulator-specific branch,
   unlike the install path, but only the device owner can confirm it.
 - **Known red:** none. Two gate steps skip out loud without a GitHub
   token. `verify/lint.sh` covers `src/app/api` and reports, without

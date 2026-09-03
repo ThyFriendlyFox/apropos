@@ -5,8 +5,7 @@ struct WebAppView: View {
     @Environment(\.dismiss) private var dismiss
 
     let repo: Repo
-    let scanned: ScannedRelease
-    let artifact: Artifact
+    let target: RunTarget
 
     @State private var runner: WebAppRunner?
     @State private var reloadToken = 0
@@ -29,10 +28,10 @@ struct WebAppView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
                         Button("Reload") { reloadToken += 1 }
-                        Button("Download again") {
+                        Button(target.isLive ? "Reload from the site" : "Download again") {
                             Task { await runner?.reinstall() }
                         }
-                        Text(scanned.release.tagName)
+                        Text(target.source)
                     } label: {
                         Image(systemName: "ellipsis.circle")
                     }
@@ -41,9 +40,7 @@ struct WebAppView: View {
         }
         .onDisappear { runner?.stop() }
         .task {
-            if runner == nil {
-                runner = WebAppRunner(artifact: artifact, releaseID: scanned.release.id)
-            }
+            if runner == nil { runner = WebAppRunner(target: target) }
             await runner?.start()
         }
     }
@@ -67,7 +64,7 @@ struct WebAppView: View {
         default:
             VStack(spacing: 12) {
                 ProgressView().controlSize(.large)
-                Text("Fetching \(scanned.release.tagName)")
+                Text(target.isLive ? "Opening \(target.source)" : "Fetching \(target.source)")
                     .foregroundStyle(Theme.secondaryText)
             }
         }

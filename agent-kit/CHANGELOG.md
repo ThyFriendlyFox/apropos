@@ -5,6 +5,27 @@ Format: [Keep a Changelog](https://keepachangelog.com/) · Versioning: [SemVer](
 
 ## [Unreleased]
 
+## [0.3.0] — 2026-09-02
+
+### Added
+- **Run any repo that already has a live site.** A repository with a
+  website field or a GitHub Pages site is runnable with no release and no
+  setup. A release bundle still wins when there is one, because it is the
+  exact build the owner shipped.
+- A single Run button at the top of a repository, whatever its releases
+  hold.
+
+### Changed
+- Install appears only on a release that can actually be installed. It
+  used to appear on any release with an asset, where it could only explain
+  itself.
+- A repository with nothing runnable names the one action that fixes it.
+
+### Fixed
+- A repository with a deployed site but no releases showed "No releases"
+  and no way to run it. Runnability never depended on a release existing.
+
+
 ## [0.2.0] — 2026-09-02
 
 ### Added

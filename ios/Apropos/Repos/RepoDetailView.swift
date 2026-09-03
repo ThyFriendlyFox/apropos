@@ -7,6 +7,7 @@ struct RepoDetailView: View {
 
     @State private var releases: [ScannedRelease] = []
     @State private var state: LoadState = .loading
+    @State private var runTarget: RunTarget?
 
     enum LoadState: Equatable {
         case loading
@@ -31,6 +32,9 @@ struct RepoDetailView: View {
                 .accessibilityLabel("Open on GitHub")
             }
         }
+        .fullScreenCover(item: $runTarget) { target in
+            WebAppView(repo: repo, target: target)
+        }
         .task { await load() }
         .refreshable { await load() }
     }
@@ -49,21 +53,58 @@ struct RepoDetailView: View {
                 Button("Try again") { Task { await load() } }
                     .buttonStyle(.borderedProminent)
             }
-        case .loaded where releases.isEmpty:
-            ContentUnavailableView {
-                Label("No releases", systemImage: "shippingbox")
-            } description: {
-                Text("\(repo.name) has no published release. Attach an .ipa to a release and it shows up here.")
-            }
         case .loaded:
             ScrollView {
                 LazyVStack(spacing: 12) {
-                    ForEach(releases) { scanned in
-                        ReleaseCard(repo: repo, scanned: scanned)
+                    // Runnability does not depend on releases existing: a
+                    // deployed site makes a repo runnable on its own.
+                    runHeader
+                    if releases.isEmpty {
+                        Notice(
+                            title: "No releases",
+                            detail: "\(repo.name) has no published release. Attach a built web app as a .zip to run that exact build here, or an .ipa to install it on the Home Screen.",
+                            tone: .neutral
+                        )
+                    } else {
+                        ForEach(releases) { scanned in
+                            ReleaseCard(repo: repo, scanned: scanned)
+                        }
                     }
                 }
                 .padding(16)
             }
+        }
+    }
+
+    /// The one action that matters, at the top, whatever the releases hold.
+    @ViewBuilder
+    private var runHeader: some View {
+        if let target = RunResolver.target(repo: repo, latest: releases.first) {
+            VStack(alignment: .leading, spacing: 10) {
+                Button {
+                    runTarget = target
+                } label: {
+                    Label("Run \(repo.name)", systemImage: "play.fill")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, minHeight: 50)
+                }
+                .buttonStyle(.borderedProminent)
+                .accessibilityIdentifier("run-repo")
+
+                Text(target.isLive
+                     ? "Opens the live site at \(target.source) inside Apropos."
+                     : "Runs the build from \(target.source) inside Apropos.")
+                    .font(.footnote)
+                    .foregroundStyle(Theme.secondaryText)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .cardSurface()
+        } else {
+            Notice(
+                title: "Nothing to run yet",
+                detail: RunResolver.adviceWhenNotRunnable(repo: repo)
+            )
+            .accessibilityIdentifier("not-runnable")
         }
     }
 
@@ -84,7 +125,7 @@ struct ReleaseCard: View {
     let scanned: ScannedRelease
 
     @State private var showingInstall = false
-    @State private var runningArtifact: Artifact?
+    @State private var runningTarget: RunTarget?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -127,7 +168,11 @@ struct ReleaseCard: View {
             HStack(spacing: 16) {
                 if let web = scanned.webBundle {
                     Button {
-                        runningArtifact = web
+                        runningTarget = .bundle(
+                            artifact: web,
+                            releaseID: scanned.release.id,
+                            tag: scanned.release.tagName
+                        )
                     } label: {
                         Label("Run", systemImage: "play.fill")
                             .font(.subheadline.weight(.semibold))
@@ -136,7 +181,7 @@ struct ReleaseCard: View {
                     .controlSize(.small)
                     .accessibilityIdentifier("run-\(scanned.release.tagName)")
                 }
-                if !scanned.artifacts.isEmpty {
+                if scanned.deviceBuild != nil || scanned.simulatorBuild != nil {
                     Button {
                         showingInstall = true
                     } label: {
@@ -164,8 +209,8 @@ struct ReleaseCard: View {
         .sheet(isPresented: $showingInstall) {
             InstallSheet(repo: repo, scanned: scanned)
         }
-        .fullScreenCover(item: $runningArtifact) { artifact in
-            WebAppView(repo: repo, scanned: scanned, artifact: artifact)
+        .fullScreenCover(item: $runningTarget) { target in
+            WebAppView(repo: repo, target: target)
         }
     }
 }

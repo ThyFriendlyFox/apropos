@@ -175,3 +175,51 @@ final class RunInsideUITests: XCTestCase {
         XCTAssertTrue(app.buttons["Done"].exists, "the run must stay inside Apropos, not leave it")
     }
 }
+
+/// A repo with no release at all still runs, because it has a deployed
+/// site. This is the case that covers most repos with no setup.
+final class RunHostedSiteUITests: XCTestCase {
+    private var app: XCUIApplication!
+
+    override func setUpWithError() throws {
+        continueAfterFailure = false
+        let token = ProcessInfo.processInfo.environment["APROPOS_TOKEN"] ?? ""
+        try XCTSkipIf(token.isEmpty, "no APROPOS_TOKEN; the signed-in UI gate needs one")
+        app = XCUIApplication()
+        app.launchEnvironment["APROPOS_TOKEN"] = token
+        app.launch()
+    }
+
+    func testARepoWithOnlyADeployedSiteRuns() {
+        XCTAssertTrue(app.navigationBars["Repositories"].waitForExistence(timeout: 20))
+
+        let field = app.searchFields.firstMatch
+        XCTAssertTrue(field.waitForExistence(timeout: 20))
+        field.tap()
+        field.typeText("openlawn")
+
+        let row = app.descendants(matching: .any)["repo-openlawn"]
+        XCTAssertTrue(row.waitForExistence(timeout: 20), "openlawn never appeared")
+        row.tap()
+
+        // openlawn has no release; the Run button comes from its homepage.
+        let run = app.buttons["run-repo"]
+        XCTAssertTrue(run.waitForExistence(timeout: 20), "a deployed site must make a repo runnable")
+        XCTAssertFalse(
+            app.descendants(matching: .any)["not-runnable"].exists,
+            "a repo with a deployed site must not be called unrunnable"
+        )
+        run.tap()
+
+        XCTAssertTrue(
+            app.descendants(matching: .any)["web-app"].waitForExistence(timeout: 60),
+            "the site did not open inside Apropos"
+        )
+        XCTAssertTrue(app.buttons["Done"].exists, "the run must stay inside Apropos")
+
+        let shot = XCTAttachment(screenshot: app.screenshot())
+        shot.name = "running-hosted"
+        shot.lifetime = .keepAlways
+        add(shot)
+    }
+}

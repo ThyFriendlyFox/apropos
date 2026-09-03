@@ -1,0 +1,30 @@
+{
+  "/Users/thyfriendlyfox/Projects/apropos/ios/Apropos/Core/GitHubAPI.swift" : {
+    "const-values" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/GitHubAPI.swiftconstvalues",
+    "dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/GitHubAPI.d",
+    "diagnostics" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/GitHubAPI.dia",
+    "object" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/GitHubAPI.o",
+    "swift-dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/GitHubAPI.swiftdeps"
+  },
+  "/Users/thyfriendlyfox/Projects/apropos/ios/Apropos/Core/GitHubError.swift" : {
+    "const-values" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/GitHubError.swiftconstvalues",
+    "dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/GitHubError.d",
+    "diagnostics" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/GitHubError.dia",
+    "object" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/GitHubError.o",
+    "swift-dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/GitHubError.swiftdeps"
+  },
+  "/Users/thyfriendlyfox/Projects/apropos/ios/Apropos/Core/InjectedToken.swift" : {
+    "const-values" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/InjectedToken.swiftconstvalues",
+    "dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/InjectedToken.d",
+    "diagnostics" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/InjectedToken.dia",
+    "object" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/InjectedToken.o",
+    "swift-dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/InjectedToken.swiftdeps"
+  },
+  "/Users/thyfriendlyfox/Projects/apropos/ios/Apropos/Install/IPAInspector.swift" : {
+    "const-values" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/IPAInspector.swiftconstvalues",
+    "dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/IPAInspector.d",
+    "diagnostics" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/IPAInspector.dia",
+    "object" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/IPAInspector.o",
+    "swift-dependencies" : "/Users/thyfriendlyfox/Projects/apropos/ios/DerivedData-device/Build/Intermediates.noindex/Apropos.build/Debug-iphoneos/Apropos.build/Objects-normal/arm64/IPAInspector.swiftdeps"
+  }
+}
