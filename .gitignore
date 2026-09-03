@@ -46,7 +46,7 @@ next-env.d.ts
 
 # xcode
 ios/*.xcodeproj
-ios/DerivedData/
+ios/DerivedData*/
 ios/build/
 *.xcuserstate
 xcuserdata/
